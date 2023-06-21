@@ -5,13 +5,10 @@ import { StatusBar } from "expo-status-bar";
 
 export default function App() {
   return (
-    // <View style={styles.container}>
-    //   <Text>Open up App.tsx to start working on your app! h</Text>
-    //   <StatusBar style="auto" />
-
-    // </View>
-
-    <CategoriesScreens />
+    <>
+      <StatusBar style="light" />
+      <CategoriesScreens />
+    </>
   );
 }
 
