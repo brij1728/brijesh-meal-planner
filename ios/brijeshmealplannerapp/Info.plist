@@ -32,7 +32,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>exp+mealcrafters</string>
+          <string>exp+meal-crafters</string>
         </array>
       </dict>
     </array>
