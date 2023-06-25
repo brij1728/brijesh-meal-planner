@@ -1,18 +1,24 @@
 {
-  "name": "brijesh-meal-planner-app",
+  "name": "Meal-Crafters",
   "version": "1.0.0",
   "main": "index.tsx",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web",
+    "build:android:preview": "eas build --local -p android --profile preview --output=./app.brijesh.mealcrafters-preview-build.apk --non-interactive",
+    "build:android:development": "eas build --local -p android --profile development --output=./app.brijesh.mealcrafters-development-build.apk --non-interactive",
+    "build:ios:preview": "eas build --local -p ios --profile preview --output=./app.brijesh.mealcrafters-preview-build.ipa --non-interactive",
+    "build:ios:development": "eas build --local -p ios --profile development --output=./app.brijesh.mealcrafters-development-build.ipa --non-interactive"
   },
   "dependencies": {
     "expo": "~48.0.18",
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
-    "react-native": "0.71.8"
+    "react-native": "0.71.8",
+    "expo-dev-client": "~2.2.1",
+    "expo-splash-screen": "~0.18.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "brijesh-meal-planner-app",
-    "slug": "brijesh-meal-planner-app",
+    "name": "Meal Crafters",
+    "slug": "Meal-Crafters",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,18 +12,28 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "app.brijesh.mealcrafters"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "app.brijesh.mealcrafters"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "scheme": "app.brijesh.mealcrafters",
+    "extra": {
+      "eas": {
+        "projectId": "eebd5889-a723-45f4-b37e-e88b9f74fa28"
+      }
     }
   }
 }
