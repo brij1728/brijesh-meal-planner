@@ -1,13 +1,26 @@
 import { CATEGORIES } from "../fixtures";
+import { CategoriesScreensNavigationProp } from "../stackroutes";
 import { Category } from "../types";
 import { CategoryGridTile } from "../components";
 import { FlatList } from "react-native";
 import React from "react";
 
-export const CategoriesScreens = () => {
+interface CategoriesScreensProps {
+  navigation: CategoriesScreensNavigationProp;
+}
+export const CategoriesScreens: React.FC<CategoriesScreensProps> = ({
+  navigation,
+}) => {
   const renderCategoryItem = ({ item }: { item: Category }) => {
+    const pressHandler = () => {
+      navigation.navigate("MealsOverview", { categoryId: item.id });
+    };
     return (
-      <CategoryGridTile id={item.id} title={item.title} color={item.color} />
+      <CategoryGridTile
+        title={item.title}
+        color={item.color}
+        onPress={pressHandler}
+      />
     );
   };
 
