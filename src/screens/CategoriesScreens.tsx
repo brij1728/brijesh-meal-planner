@@ -1,17 +1,17 @@
-import { FlatList, ListRenderItemInfo } from "react-native";
+import React from 'react';
+import { FlatList, ListRenderItemInfo } from 'react-native';
 
-import { CATEGORIES } from "../fixtures";
-import { CategoriesOverviewScreenProps } from "../stackroutes";
-import { Category } from "../types";
-import { CategoryGridTile } from "../components";
-import React from "react";
+import { CategoryGridTile } from '../components';
+import { CATEGORIES } from '../fixtures';
+import { CategoriesOverviewScreenProps } from '../stackroutes';
+import { Category } from '../types';
 
 export const CategoriesScreens: React.FC<CategoriesOverviewScreenProps> = ({
   navigation,
 }) => {
   const renderCategoryItem = ({ item }: ListRenderItemInfo<Category>) => {
     const pressHandler = () => {
-      navigation.navigate("MealsOverview", { categoryId: item.id });
+      navigation.navigate('MealsOverview', { categoryId: item.id });
     };
     return (
       <CategoryGridTile

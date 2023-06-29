@@ -10,7 +10,11 @@
     "build:android:preview": "eas build --local -p android --profile preview --output=./app.brijesh.mealcrafters-preview-build.apk --non-interactive",
     "build:android:development": "eas build --local -p android --profile development --output=./app.brijesh.mealcrafters-development-build.apk --non-interactive",
     "build:ios:preview": "eas build --local -p ios --profile preview --output=./app.brijesh.mealcrafters-preview-build.ipa --non-interactive",
-    "build:ios:development": "eas build --local -p ios --profile development --output=./app.brijesh.mealcrafters-development-build.ipa --non-interactive"
+    "build:ios:development": "eas build --local -p ios --profile development --output=./app.brijesh.mealcrafters-development-build.ipa --non-interactive",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint ./ --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
     "@react-navigation/native": "^6.1.7",
@@ -28,7 +32,15 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.0.14",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "eslint": "^8.42.0",
+    "eslint-config-universe": "^11.2.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2"
   },
   "private": true
 }

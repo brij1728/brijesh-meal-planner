@@ -1,2 +1,2 @@
-export * from "./mock-category.fixture";
-export * from "./mock-meals.fixture";
+export * from './mock-category.fixture';
+export * from './mock-meals.fixture';

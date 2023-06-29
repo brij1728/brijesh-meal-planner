@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "types": ["@types/node"],
+    "noEmit": true,
+    "allowJs": true
+  },
+  "extends": "expo/tsconfig.base",
+  "include": [
+    ".eslintrc.js",
+    "babel.config.js",
+    "jest.config.base.js",
+    "jest.config.js",
+    "jest.preset.js"
+  ]
+}

@@ -1,2 +1,2 @@
-export * from "./CategoriesScreens";
-export * from "./MealsOverviewScreens";
+export * from './CategoriesScreens';
+export * from './MealsOverviewScreens';

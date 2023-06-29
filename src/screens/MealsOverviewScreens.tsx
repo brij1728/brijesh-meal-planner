@@ -4,12 +4,12 @@ import {
   StyleSheet,
   Text,
   View,
-} from "react-native";
+} from 'react-native';
 
-import { MEALS } from "../fixtures";
-import { Meal } from "../types";
-import { MealItem } from "../components";
-import { MealsOverviewScreenProps } from "../stackroutes";
+import { MealItem } from '../components';
+import { MEALS } from '../fixtures';
+import { MealsOverviewScreenProps } from '../stackroutes';
+import { Meal } from '../types';
 
 export const MealsOverviewScreens: React.FC<MealsOverviewScreenProps> = ({
   route,
@@ -17,7 +17,7 @@ export const MealsOverviewScreens: React.FC<MealsOverviewScreenProps> = ({
   const categoryId = route.params.categoryId;
 
   const displayMeals = MEALS.filter(
-    (meal) => meal.categoryIds.indexOf(categoryId) >= 0
+    (meal) => meal.categoryIds.indexOf(categoryId) >= 0,
   );
 
   const renderMealItem = ({ item }: ListRenderItemInfo<Meal>) => {
@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

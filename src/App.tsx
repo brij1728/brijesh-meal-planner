@@ -1,10 +1,11 @@
-import { CategoriesScreens, MealsOverviewScreens } from "./screens";
-import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet } from 'react-native';
 
-import { NavigationContainer } from "@react-navigation/native";
-import { StackNavigatorParamsList } from "./stackroutes";
-import { StatusBar } from "expo-status-bar";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StatusBar } from 'expo-status-bar';
+
+import { CategoriesScreens, MealsOverviewScreens } from './screens';
+import { StackNavigatorParamsList } from './stackroutes';
 
 export default function App() {
   const Stack = createNativeStackNavigator<StackNavigatorParamsList>();
