@@ -1,31 +1,37 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import { MEALS } from "../fixtures";
-import { Meals } from "../types";
+import { Meal } from "../types";
+import { MealItem } from "../components";
+import { MealsOverviewScreenProps } from "../stackroutes";
 
-export const MealsOverviewScreens = ({ route }: any) => {
+export const MealsOverviewScreens: React.FC<MealsOverviewScreenProps> = ({
+  route,
+}) => {
   const categoryId = route.params.categoryId;
 
   const displayMeals = MEALS.filter(
     (meal) => meal.categoryIds.indexOf(categoryId) >= 0
   );
 
-  const renderMealItem = ({ itemData }: { itemData: Meals }) => {
-    return (
-      <View>
-        <Text>{itemData.title}</Text>
-      </View>
-    );
+  const renderMealItem = ({ item }: ListRenderItemInfo<Meal>) => {
+    return <MealItem title={item.title} />;
   };
 
   return (
     <View>
       <Text>MealsOverviewScreens -{categoryId}</Text>
-      {/* <FlatList
+      <FlatList
         data={displayMeals}
         keyExtractor={(item) => item.id}
         renderItem={renderMealItem}
-      /> */}
+      />
     </View>
   );
 };
