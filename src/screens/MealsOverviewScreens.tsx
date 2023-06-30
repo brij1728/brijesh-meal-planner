@@ -1,10 +1,4 @@
-import {
-  FlatList,
-  ListRenderItemInfo,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { FlatList, ListRenderItemInfo, Text, View } from 'react-native';
 
 import { MealItem } from '../components';
 import { MEALS } from '../fixtures';
@@ -44,13 +38,3 @@ export const MealsOverviewScreens: React.FC<MealsOverviewScreenProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

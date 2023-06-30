@@ -4,6 +4,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "cSpell.words": ["Crafters", "Pressable"],
+  "cSpell.words": ["Crafters", "Pressable", "stackroutes"],
   "java.compile.nullAnalysis.mode": "automatic"
 }
