@@ -1,6 +1,6 @@
-import { Meals } from '../types';
+import { Meal } from '../types';
 
-export const MEALS: Meals[] = [
+export const MEALS: Meal[] = [
   {
     id: 'm1',
     categoryIds: ['c1', 'c2'],

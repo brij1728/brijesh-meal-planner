@@ -3,5 +3,7 @@
   "editor.formatOnSaveMode": "file",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "cSpell.words": ["Crafters", "Pressable"],
+  "java.compile.nullAnalysis.mode": "automatic"
 }

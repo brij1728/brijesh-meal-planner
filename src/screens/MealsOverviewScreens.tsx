@@ -21,7 +21,16 @@ export const MealsOverviewScreens: React.FC<MealsOverviewScreenProps> = ({
   );
 
   const renderMealItem = ({ item }: ListRenderItemInfo<Meal>) => {
-    return <MealItem title={item.title} />;
+    return (
+      <MealItem
+        title={item.title}
+        imageUrl={item.imageUrl}
+        key={item.id}
+        duration={item.duration}
+        complexity={item.complexity}
+        affordability={item.affordability}
+      />
+    );
   };
 
   return (
