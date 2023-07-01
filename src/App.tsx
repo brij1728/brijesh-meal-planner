@@ -4,14 +4,18 @@ import { StyleSheet } from 'react-native';
 
 import { StatusBar } from 'expo-status-bar';
 
-import { CategoriesScreens, MealsOverviewScreens } from './screens';
-import { StackNavigatorParamsList } from './stackroutes';
+import { StackNavigatorParamsList } from './screenRoutes';
+import {
+  CategoriesScreens,
+  MealDetailsScreen,
+  MealsOverviewScreens,
+} from './screens';
 
 export default function App() {
   const Stack = createNativeStackNavigator<StackNavigatorParamsList>();
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -21,7 +25,7 @@ export default function App() {
             },
             headerTintColor: '#fff',
             contentStyle: {
-              backgroundColor: '#e2d7d0',
+              backgroundColor: '#be7242',
             },
           }}
         >
@@ -44,12 +48,13 @@ export default function App() {
             component={MealsOverviewScreens}
             options={{
               title: 'Meals Overview',
-              // headerStyle: {
-              //   backgroundColor: '#4d7b2e',
-              // },
-              // headerTintColor: '#fff',
+              headerStyle: {
+                backgroundColor: '#4d7b2e',
+              },
+              headerTintColor: '#fff',
             }}
           />
+          <Stack.Screen name="MealDetails" component={MealDetailsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

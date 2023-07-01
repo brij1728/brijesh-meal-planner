@@ -1,2 +1,3 @@
-export * from './CategoriesScreens';
-export * from './MealsOverviewScreens';
+export * from './CategoriesScreen';
+export * from './MealsOverviewScreen';
+export * from './MealDetailsScreen';
