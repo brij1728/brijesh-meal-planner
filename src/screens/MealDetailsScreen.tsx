@@ -1,7 +1,8 @@
 import { StackScreenProps } from '@react-navigation/stack';
+import { useLayoutEffect } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { List, MealDetails, SubTitle } from '../components';
+import { IconButton, List, MealDetails, SubTitle } from '../components';
 import { MEALS } from '../fixtures';
 import { StackNavigatorParamsList } from '../screenRoutes';
 import { Meal } from '../types';
@@ -21,6 +22,22 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
     (meal) => meal.id === mealId,
   );
 
+  const headerOnPressHandler = () => {
+    console.log('headerOnPressHandler');
+
+    // navigation.navigate('CategoriesOverview');
+  };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <IconButton iconName="star" onPress={() => headerOnPressHandler} />
+        );
+      },
+    });
+  }, [navigation]);
+
   if (!selectedMeal) {
     return (
       <View>
@@ -28,6 +45,7 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
       </View>
     );
   }
+
   return (
     <ScrollView style={styles.rootContainer}>
       <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
@@ -61,7 +79,7 @@ const styles = StyleSheet.create({
     height: 350,
   },
   title: {
-    fontweight: 'bold',
+    fontWeight: 'bold',
     fontSize: 24,
     textAlign: 'center',
     margin: 8,
