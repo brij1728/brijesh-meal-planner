@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { useLayoutEffect } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { IconButton, List, MealDetails, SubTitle } from '../components';
@@ -22,21 +22,25 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
     (meal) => meal.id === mealId,
   );
 
-  const headerOnPressHandler = () => {
+  const headerOnPressHandler = useCallback(() => {
     console.log('headerOnPressHandler');
 
-    // navigation.navigate('CategoriesOverview');
-  };
+    navigation.navigate('CategoriesOverview');
+  }, [navigation]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <IconButton iconName="star" onPress={() => headerOnPressHandler} />
+          <IconButton
+            iconName="star"
+            color="#fff"
+            onPress={headerOnPressHandler}
+          />
         );
       },
     });
-  }, [navigation]);
+  }, [navigation, headerOnPressHandler]);
 
   if (!selectedMeal) {
     return (

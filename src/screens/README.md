@@ -7,6 +7,9 @@ npx expo install react-native-screens react-native-safe-area-context
 npm install @react-navigation/stack
 npm install @expo/vector-icons
 
+npm install @react-navigation/drawer
+npx expo install react-native-gesture-handler react-native-reanimated
+
 **Development command**
 
 npx expo prebuild
