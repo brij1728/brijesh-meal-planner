@@ -3,7 +3,7 @@ import { FlatList, ListRenderItemInfo } from 'react-native';
 
 import { CategoryGridTile } from '../components';
 import { CATEGORIES } from '../fixtures';
-import { CategoriesOverviewScreenProps } from '../screenRoutes';
+import { CategoriesOverviewScreenProps } from '../navigation/navigationType';
 import { Category } from '../types';
 
 export const CategoriesScreens: React.FC<CategoriesOverviewScreenProps> = ({

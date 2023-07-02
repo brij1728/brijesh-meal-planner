@@ -3,7 +3,7 @@ import { FlatList, ListRenderItemInfo, View } from 'react-native';
 
 import { MealItem } from '../components';
 import { CATEGORIES, MEALS } from '../fixtures';
-import { MealsOverviewScreenProps } from '../screenRoutes';
+import { MealsOverviewScreenProps } from '../navigation/navigationType';
 import { Meal } from '../types';
 
 export const MealsOverviewScreens: React.FC<MealsOverviewScreenProps> = ({
