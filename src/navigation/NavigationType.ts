@@ -4,6 +4,7 @@ export type StackNavigatorParamsList = {
   CategoriesOverview: undefined;
   MealsOverview: { categoryId: string };
   MealDetails: { mealId: string };
+  Favourites: undefined;
 };
 
 export type CategoriesOverviewScreenProps = NativeStackScreenProps<

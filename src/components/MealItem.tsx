@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 
-import { StackNavigatorParamsList } from '../navigation/navigationType';
+import { StackNavigatorParamsList } from '../navigation/NavigationType';
 import { MealDetails } from './MealDetails';
 
 type MealItemNavigationProp = NavigationProp<

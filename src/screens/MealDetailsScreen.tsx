@@ -4,7 +4,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { IconButton, List, MealDetails, SubTitle } from '../components';
 import { MEALS } from '../fixtures';
-import { StackNavigatorParamsList } from '../navigation/navigationType';
+import { StackNavigatorParamsList } from '../navigation/NavigationType';
 import { Meal } from '../types';
 
 type MealDetailsScreenProps = StackScreenProps<

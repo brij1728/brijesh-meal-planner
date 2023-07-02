@@ -4,6 +4,12 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "cSpell.words": ["Crafters", "Ionicons", "Pressable", "stackroutes"],
+  "cSpell.words": [
+    "Crafters",
+    "Favourites",
+    "Ionicons",
+    "Pressable",
+    "stackroutes"
+  ],
   "java.compile.nullAnalysis.mode": "automatic"
 }
