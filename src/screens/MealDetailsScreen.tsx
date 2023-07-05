@@ -1,11 +1,17 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { useCallback, useContext, useLayoutEffect } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { IconButton, List, MealDetails, SubTitle } from '../components';
 import { MEALS } from '../fixtures';
 import { StackNavigatorParamsList } from '../navigation/NavigationType';
-import { FavouritesContext } from '../store';
+import {
+  AppState,
+  addFavourite,
+  removeFavourite,
+  useAppDispatch,
+  useAppSelector,
+} from '../store';
 import { Meal } from '../types';
 
 type MealDetailsScreenProps = StackScreenProps<
@@ -17,7 +23,12 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
   route,
   navigation,
 }) => {
-  const favouritesMealContext = useContext(FavouritesContext);
+  // const favouritesMealContext = useContext(FavouritesContext);
+  const favouritesMealIds = useAppSelector(
+    (state: AppState) => state.favourites.ids,
+  );
+
+  const dispatch = useAppDispatch();
 
   const mealId = route.params.mealId;
 
@@ -25,15 +36,24 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
     (meal) => meal.id === mealId,
   );
 
-  const mealIsFavourite = favouritesMealContext.ids.includes(mealId);
+  // const mealIsFavourite = favouritesMealContext.ids.includes(mealId);
+  const mealIsFavourite = favouritesMealIds.includes(mealId);
+
+  // const changeFavouriteStatusHandler = useCallback(() => {
+  //   if (mealIsFavourite) {
+  //     favouritesMealContext.removeFavourite(mealId);
+  //   } else {
+  //     favouritesMealContext.addFavourite(mealId);
+  //   }
+  // }, [mealIsFavourite, favouritesMealContext, mealId]);
 
   const changeFavouriteStatusHandler = useCallback(() => {
     if (mealIsFavourite) {
-      favouritesMealContext.removeFavourite(mealId);
+      dispatch(removeFavourite({ id: mealId }));
     } else {
-      favouritesMealContext.addFavourite(mealId);
+      dispatch(addFavourite({ id: mealId }));
     }
-  }, [mealIsFavourite, favouritesMealContext, mealId]);
+  }, [mealIsFavourite, dispatch, mealId]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

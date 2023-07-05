@@ -12,6 +12,7 @@
     "Ionicons",
     "prebuild",
     "Pressable",
+    "reduxjs",
     "stackroutes"
   ],
   "java.compile.nullAnalysis.mode": "automatic"

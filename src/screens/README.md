@@ -10,6 +10,9 @@ npm install @expo/vector-icons
 npm install @react-navigation/drawer
 npx expo install react-native-gesture-handler react-native-reanimated
 npm install @react-navigation/bottom-tabs
+
+npm install @reduxjs/toolkit react-redux
+
 **Development command**
 
 npx expo prebuild
