@@ -5,9 +5,12 @@
     "source.fixAll.eslint": true
   },
   "cSpell.words": [
+    "Catergories",
     "Crafters",
+    "Favourite",
     "Favourites",
     "Ionicons",
+    "prebuild",
     "Pressable",
     "stackroutes"
   ],

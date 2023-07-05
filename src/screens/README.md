@@ -15,6 +15,7 @@ npm install @react-navigation/bottom-tabs
 npx expo prebuild
 
 npm run build:android:development
+npm run build:android:preview
 
 adb install app.brijesh.mealcrafters-development-build.apk
 adb uninstall app.brijesh.mealcrafters

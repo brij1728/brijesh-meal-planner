@@ -1,5 +1,6 @@
 export * from './CategoryGridTile';
-export * from './MealItem';
-export * from './MealDetails';
 export * from './MealDetail';
+export * from './MealDetails';
+
+export * from './MealsList';
 export * from './IconButton';

@@ -1,10 +1,11 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { useCallback, useLayoutEffect } from 'react';
+import { useCallback, useContext, useLayoutEffect } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { IconButton, List, MealDetails, SubTitle } from '../components';
 import { MEALS } from '../fixtures';
 import { StackNavigatorParamsList } from '../navigation/NavigationType';
+import { FavouritesContext } from '../store';
 import { Meal } from '../types';
 
 type MealDetailsScreenProps = StackScreenProps<
@@ -16,31 +17,37 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
   route,
   navigation,
 }) => {
+  const favouritesMealContext = useContext(FavouritesContext);
+
   const mealId = route.params.mealId;
 
   const selectedMeal: Meal | undefined = MEALS.find(
     (meal) => meal.id === mealId,
   );
 
-  const headerOnPressHandler = useCallback(() => {
-    console.log('headerOnPressHandler');
+  const mealIsFavourite = favouritesMealContext.ids.includes(mealId);
 
-    navigation.navigate('CategoriesOverview');
-  }, [navigation]);
+  const changeFavouriteStatusHandler = useCallback(() => {
+    if (mealIsFavourite) {
+      favouritesMealContext.removeFavourite(mealId);
+    } else {
+      favouritesMealContext.addFavourite(mealId);
+    }
+  }, [mealIsFavourite, favouritesMealContext, mealId]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
           <IconButton
-            iconName="star"
+            iconName={mealIsFavourite ? 'ios-star' : 'ios-star-outline'}
             color="#fff"
-            onPress={headerOnPressHandler}
+            onPress={changeFavouriteStatusHandler}
           />
         );
       },
     });
-  }, [navigation, headerOnPressHandler]);
+  }, [navigation, changeFavouriteStatusHandler, mealIsFavourite]);
 
   if (!selectedMeal) {
     return (

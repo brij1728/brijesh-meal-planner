@@ -3,10 +3,10 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 
 import { CategoriesScreens, FavouritesScreen } from '../screens';
-import { StackNavigatorParamsList } from './NavigationType';
+import { DrawerNavigatorParamsList } from './NavigationType';
 
 export const DrawerNavigation = () => {
-  const Drawer = createDrawerNavigator<StackNavigatorParamsList>();
+  const Drawer = createDrawerNavigator<DrawerNavigatorParamsList>();
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -27,7 +27,7 @@ export const DrawerNavigation = () => {
       }}
     >
       <Drawer.Screen
-        name="CategoriesOverview"
+        name="Home"
         component={CategoriesScreens}
         options={{
           title: 'Meals Categories',
