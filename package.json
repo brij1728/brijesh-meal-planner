@@ -1,5 +1,5 @@
 {
-  "name": "Meal-Crafters",
+  "name": "Mea -Crafters",
   "version": "1.0.0",
   "main": "index.tsx",
   "scripts": {
@@ -14,7 +14,8 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint ./ --ext .js,.jsx,.ts,.tsx --fix"
+    "lint:fix": "eslint ./ --ext .js,.jsx,.ts,.tsx --fix",
+    "generate-api-client": "bash ./scripts/generate-api-client.sh ./src/api/swagger.json ./src/api/generated && eslint ./src/api/generated && prettier --write ./src/api/generated"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
@@ -24,6 +25,7 @@
     "@react-navigation/native-stack": "^6.9.13",
     "@react-navigation/stack": "^6.3.17",
     "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
     "expo": "~48.0.18",
     "expo-dev-client": "~2.2.1",
     "expo-splash-screen": "~0.18.2",

@@ -13,6 +13,8 @@ npm install @react-navigation/bottom-tabs
 
 npm install @reduxjs/toolkit react-redux
 
+npm install axios
+
 **Development command**
 
 npx expo prebuild
