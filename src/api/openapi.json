@@ -1,0 +1,296 @@
+{
+  "openapi": "3.0.2",
+  "info": { "title": "MealPlanner API", "version": "0.1.0" },
+  "paths": {
+    "/api/users/me": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get User Info Api",
+        "operationId": "Auth-get_user_info_api",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserGet" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recipes": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Get Recipes",
+        "operationId": "Recipes-get_recipes",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Recipes-Get Recipes",
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/RecipeGet" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recipes/{recipe_id}": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Get Recipe",
+        "operationId": "Recipes-get_recipe",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "title": "Recipe Id", "type": "string" },
+            "name": "recipe_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RecipeGet" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Get Categories",
+        "operationId": "Recipes-get_categories",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Recipes-Get Categories",
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/CategoryGet" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categories/{category_id}": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Get Category",
+        "operationId": "Recipes-get_category",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "title": "Category Id", "type": "string" },
+            "name": "category_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CategoryGet" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categories/{category_id}/recipes": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Get Category Recipes",
+        "operationId": "Recipes-get_category_recipes",
+        "parameters": [
+          {
+            "required": true,
+            "schema": { "title": "Category Id", "type": "string" },
+            "name": "category_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Recipes-Get Category Recipes",
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/RecipeGet" }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CategoryGet": {
+        "title": "CategoryGet",
+        "required": ["id", "name"],
+        "type": "object",
+        "properties": {
+          "id": { "title": "Id", "type": "string" },
+          "name": { "title": "Name", "type": "string" }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ValidationError" }
+          }
+        }
+      },
+      "IngredientGet": {
+        "title": "IngredientGet",
+        "required": ["id", "name", "quantity"],
+        "type": "object",
+        "properties": {
+          "id": { "title": "Id", "type": "string" },
+          "name": { "title": "Name", "type": "string" },
+          "quantity": { "title": "Quantity", "type": "string" }
+        }
+      },
+      "RecipeGet": {
+        "title": "RecipeGet",
+        "required": [
+          "id",
+          "name",
+          "cooking_time_in_minutes",
+          "complexity",
+          "calories_estimate",
+          "category",
+          "ingredients",
+          "instructions",
+          "images"
+        ],
+        "type": "object",
+        "properties": {
+          "id": { "title": "Id", "type": "string" },
+          "name": { "title": "Name", "type": "string" },
+          "description": {
+            "title": "Description",
+            "type": "string",
+            "default": ""
+          },
+          "cooking_time_in_minutes": {
+            "title": "Cooking Time In Minutes",
+            "type": "integer"
+          },
+          "complexity": { "title": "Complexity", "type": "string" },
+          "calories_estimate": {
+            "title": "Calories Estimate",
+            "type": "integer"
+          },
+          "category": { "$ref": "#/components/schemas/CategoryGet" },
+          "ingredients": {
+            "title": "Ingredients",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/IngredientGet" }
+          },
+          "instructions": {
+            "title": "Instructions",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/RecipeInstructionGet" }
+          },
+          "images": {
+            "title": "Images",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/RecipeImageGet" }
+          }
+        }
+      },
+      "RecipeImageGet": {
+        "title": "RecipeImageGet",
+        "required": ["id", "url"],
+        "type": "object",
+        "properties": {
+          "id": { "title": "Id", "type": "string" },
+          "url": { "title": "Url", "type": "string" },
+          "caption": { "title": "Caption", "type": "string" }
+        }
+      },
+      "RecipeInstructionGet": {
+        "title": "RecipeInstructionGet",
+        "required": ["id", "text"],
+        "type": "object",
+        "properties": {
+          "id": { "title": "Id", "type": "string" },
+          "text": { "title": "Text", "type": "string" }
+        }
+      },
+      "UserGet": {
+        "title": "UserGet",
+        "required": ["id", "email"],
+        "type": "object",
+        "properties": {
+          "id": { "title": "Id", "type": "string", "format": "uuid" },
+          "first_name": { "title": "First Name", "type": "string" },
+          "last_name": { "title": "Last Name", "type": "string" },
+          "email": { "title": "Email", "type": "string" },
+          "image_url": { "title": "Image Url", "type": "string" }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": ["loc", "msg", "type"],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] }
+          },
+          "msg": { "title": "Message", "type": "string" },
+          "type": { "title": "Error Type", "type": "string" }
+        }
+      }
+    }
+  }
+}

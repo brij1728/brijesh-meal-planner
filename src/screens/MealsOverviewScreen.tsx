@@ -1,28 +1,42 @@
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
+import { fetchCategoryById, fetchRecipesForCategory } from '../api';
 import { MealsList } from '../components';
-import { CATEGORIES, MEALS } from '../fixtures';
 import { MealsOverviewScreenProps } from '../navigation/NavigationType';
+import { Category, Meal } from '../types';
 
 export const MealsOverviewScreens: React.FC<MealsOverviewScreenProps> = ({
   route,
   navigation,
 }) => {
   const categoryId = route.params.categoryId;
+  const [meals, setMeals] = useState<Meal[]>([]);
+  const [category, setCategory] = useState<Category | null>(null);
 
-  const displayMeals = MEALS.filter(
-    (meal) => meal.categoryIds.indexOf(categoryId) >= 0,
-  );
+  useEffect(() => {
+    (async () => {
+      const data = await fetchCategoryById(categoryId);
+      setCategory(data);
+    })();
+    (async () => {
+      const data = await fetchRecipesForCategory(categoryId);
+      setMeals(data);
+    })();
+  }, [categoryId]);
 
-  const categoryTitle = CATEGORIES.find(
-    (category) => category.id === categoryId,
-  )?.title;
+  // const displayMeals = MEALS.filter(
+  //   (meal) => meal.categoryIds.indexOf(categoryId) >= 0,
+  // );
+
+  // const categoryTitle = CATEGORIES.find(
+  //   (category) => category.id === categoryId,
+  // )?.title;
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: categoryTitle,
+      title: category?.title,
     });
-  }, [categoryId, categoryTitle, navigation]);
+  }, [categoryId, category?.title, navigation]);
 
-  return <MealsList items={displayMeals} />;
+  return <MealsList items={meals} />;
 };
