@@ -1,9 +1,9 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { useCallback, useLayoutEffect } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { fetchRecipeById } from '../api';
 import { IconButton, List, MealDetails, SubTitle } from '../components';
-import { MEALS } from '../fixtures';
 import { StackNavigatorParamsList } from '../navigation/NavigationType';
 import {
   AppState,
@@ -24,17 +24,24 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
   navigation,
 }) => {
   // const favouritesMealContext = useContext(FavouritesContext);
+  const mealId = route.params.mealId;
+
   const favouritesMealIds = useAppSelector(
     (state: AppState) => state.favourites.ids,
   );
 
   const dispatch = useAppDispatch();
 
-  const mealId = route.params.mealId;
+  const [meals, setMeals] = useState<Meal | null>(null);
 
-  const selectedMeal: Meal | undefined = MEALS.find(
-    (meal) => meal.id === mealId,
-  );
+  useEffect(() => {
+    (async () => {
+      const data = await fetchRecipeById(mealId);
+      setMeals(data);
+    })();
+  }, [mealId]);
+
+  // const selectedMeal: Meal | null = meals.find((meal) => meal.id === mealId);
 
   // const mealIsFavourite = favouritesMealContext.ids.includes(mealId);
   const mealIsFavourite = favouritesMealIds.includes(mealId);
@@ -69,7 +76,7 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
     });
   }, [navigation, changeFavouriteStatusHandler, mealIsFavourite]);
 
-  if (!selectedMeal) {
+  if (!meals) {
     return (
       <View>
         <Text>Meal not found!</Text>
@@ -79,21 +86,21 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
 
   return (
     <ScrollView style={styles.rootContainer}>
-      <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
-      <Text style={styles.title}> {selectedMeal.title}</Text>
+      <Image source={{ uri: meals.imageUrl }} style={styles.image} />
+      <Text style={styles.title}> {meals.title}</Text>
       <MealDetails
-        duration={selectedMeal.duration}
-        complexity={selectedMeal.complexity}
-        affordability={selectedMeal.affordability}
+        duration={meals.duration}
+        complexity={meals.complexity}
+        affordability={meals.affordability}
         textStyle={styles.detailText}
       />
       <View style={styles.listOuterContainer}>
         <View>
           <SubTitle subTitleText="Ingredients" />
-          <List data={selectedMeal.ingredients} />
+          <List data={meals.ingredients} />
 
           <SubTitle subTitleText="Steps" />
-          <List data={selectedMeal.steps} />
+          <List data={meals.steps} />
         </View>
       </View>
     </ScrollView>
