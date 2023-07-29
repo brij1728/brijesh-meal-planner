@@ -1,12 +1,13 @@
 import { DrawerScreenProps } from '@react-navigation/drawer';
-import { NavigatorScreenParams } from '@react-navigation/native';
 import type { CompositeScreenProps } from '@react-navigation/native';
+import { NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type StackNavigatorParamsList = {
   CategoriesOverview: undefined;
   MealsOverview: { categoryId: string };
   MealDetails: { mealId: string };
+  Favourites: { mealId: string };
 };
 
 export type DrawerNavigatorParamsList = {
@@ -27,4 +28,9 @@ export type MealsOverviewScreenProps = NativeStackScreenProps<
 export type MealDetailsScreenProps = NativeStackScreenProps<
   StackNavigatorParamsList,
   'MealDetails'
+>;
+
+export type FavouritesScreenProps = NativeStackScreenProps<
+  StackNavigatorParamsList,
+  'Favourites'
 >;

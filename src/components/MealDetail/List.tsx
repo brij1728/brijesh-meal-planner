@@ -27,5 +27,6 @@ const styles = StyleSheet.create({
   itemText: {
     color: '#0f3d5c',
     textAlign: 'center',
+    textTransform: 'capitalize',
   },
 });

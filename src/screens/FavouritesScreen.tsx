@@ -1,18 +1,35 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { fetchAllRecipes } from '../api';
 import { MealsList } from '../components';
-import { MEALS } from '../fixtures';
-import { useAppSelector } from '../store';
+import { FavouritesScreenProps } from '../navigation';
+import { AppState, useAppSelector } from '../store';
+import { Meal } from '../types';
 
-export const FavouritesScreen = () => {
+export const FavouritesScreen: React.FC<FavouritesScreenProps> = ({
+  route,
+}) => {
   // const favouriteMealContext = useContext(FavouritesContext);
-  const favouriteMealIds = useAppSelector((state) => state.favourites.ids);
 
-  const favouriteMeals = MEALS.filter((meal) =>
-    favouriteMealIds.includes(meal.id),
+  const favouritesMealIds = useAppSelector(
+    (state: AppState) => state.favourites.ids,
+  );
+  const [meals, setMeals] = useState<Meal[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetchAllRecipes();
+
+      setMeals(data);
+    })();
+  }, [favouritesMealIds]);
+
+  const favouriteMeals = meals.filter((meal: { id: string }) =>
+    favouritesMealIds.includes(meal.id),
   );
 
-  if (favouriteMeals.length === 0) {
+  if (!meals) {
     return (
       <View style={styles.rootContainer}>
         <Text style={styles.text}>

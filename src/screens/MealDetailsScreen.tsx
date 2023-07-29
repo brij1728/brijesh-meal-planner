@@ -1,10 +1,9 @@
-import { StackScreenProps } from '@react-navigation/stack';
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { fetchRecipeById } from '../api';
 import { IconButton, List, MealDetails, SubTitle } from '../components';
-import { StackNavigatorParamsList } from '../navigation/NavigationType';
+import { MealDetailsScreenProps } from '../navigation';
 import {
   AppState,
   addFavourite,
@@ -14,10 +13,10 @@ import {
 } from '../store';
 import { Meal } from '../types';
 
-type MealDetailsScreenProps = StackScreenProps<
-  StackNavigatorParamsList,
-  'MealDetails'
->;
+// type MealDetailsScreenProps = StackScreenProps<
+//   StackNavigatorParamsList,
+//   'MealDetails'
+// >;
 
 export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
   route,
@@ -41,7 +40,7 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
     })();
   }, [mealId]);
 
-  // const selectedMeal: Meal | null = meals.find((meal) => meal.id === mealId);
+  // const selectedMeal: Meal | null = MEAL.find((meal) => meal.id === mealId);
 
   // const mealIsFavourite = favouritesMealContext.ids.includes(mealId);
   const mealIsFavourite = favouritesMealIds.includes(mealId);
