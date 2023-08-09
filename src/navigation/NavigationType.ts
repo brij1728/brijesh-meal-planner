@@ -1,3 +1,4 @@
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import type { CompositeScreenProps } from '@react-navigation/native';
 import { NavigatorScreenParams } from '@react-navigation/native';
@@ -11,13 +12,22 @@ export type StackNavigatorParamsList = {
 };
 
 export type DrawerNavigatorParamsList = {
-  Home: NavigatorScreenParams<StackNavigatorParamsList>;
-  Favourites: undefined;
+  HomeDrawer: NavigatorScreenParams<StackNavigatorParamsList>;
+  FavouriteDrawer: undefined;
+};
+
+export type BottomNavigatorParamsList = {
+  HomeBottom: NavigatorScreenParams<StackNavigatorParamsList>;
+  FavouriteBottom: undefined;
+  MenuBottom: undefined;
 };
 
 export type CategoriesOverviewScreenProps = CompositeScreenProps<
-  DrawerScreenProps<DrawerNavigatorParamsList, 'Home'>,
-  NativeStackScreenProps<StackNavigatorParamsList>
+  BottomTabScreenProps<BottomNavigatorParamsList, 'HomeBottom'>,
+  CompositeScreenProps<
+    DrawerScreenProps<DrawerNavigatorParamsList, 'HomeDrawer'>,
+    NativeStackScreenProps<StackNavigatorParamsList>
+  >
 >;
 
 export type MealsOverviewScreenProps = NativeStackScreenProps<

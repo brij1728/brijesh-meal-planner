@@ -4,3 +4,4 @@ export * from './MealDetails';
 
 export * from './MealsList';
 export * from './IconButton';
+export * from './Input';

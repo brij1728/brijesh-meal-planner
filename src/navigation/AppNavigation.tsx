@@ -5,7 +5,7 @@ import { MealDetailsScreen, MealsOverviewScreens } from '../screens';
 import { DrawerNavigation } from './DrawerNavigation';
 import { StackNavigatorParamsList } from './NavigationType';
 
-export const ScreenNavigation = () => {
+export const AppNavigation = () => {
   const Stack = createNativeStackNavigator<StackNavigatorParamsList>();
   return (
     <>
@@ -28,6 +28,10 @@ export const ScreenNavigation = () => {
             options={{
               // title: 'Meals Categories',
               headerShown: false,
+              contentStyle: {
+                backgroundColor: '#1a0e06',
+                shadowColor: '#c93e3e',
+              },
             }}
           />
           <Stack.Screen

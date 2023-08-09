@@ -1,3 +1,3 @@
 export * from './NavigationType';
 export * from './DrawerNavigation';
-export * from './ScreenNavigation';
+export * from './AppNavigation';

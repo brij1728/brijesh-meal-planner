@@ -2,7 +2,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { CategoriesScreens, FavouritesScreen } from '../screens';
+import { FavouritesScreen } from '../screens';
+import { BottomNavigation } from './BottomNavigation';
 import { DrawerNavigatorParamsList } from './NavigationType';
 
 export const DrawerNavigation = () => {
@@ -27,8 +28,8 @@ export const DrawerNavigation = () => {
       }}
     >
       <Drawer.Screen
-        name="Home"
-        component={CategoriesScreens}
+        name="HomeDrawer"
+        component={BottomNavigation}
         options={{
           title: 'Meals Categories',
           drawerIcon: ({ focused, size, color }) => (
@@ -37,10 +38,10 @@ export const DrawerNavigation = () => {
         }}
       />
       <Drawer.Screen
-        name="Favourites"
+        name="FavouriteDrawer"
         component={FavouritesScreen}
         options={{
-          title: 'My Favourites Meals',
+          title: 'Favourite ',
           drawerIcon: ({ focused, size, color }) => (
             <Ionicons name="star" size={size} color={color} focused={focused} />
           ),

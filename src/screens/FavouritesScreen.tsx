@@ -3,13 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { fetchAllRecipes } from '../api';
 import { MealsList } from '../components';
-import { FavouritesScreenProps } from '../navigation';
 import { AppState, useAppSelector } from '../store';
 import { Meal } from '../types';
 
-export const FavouritesScreen: React.FC<FavouritesScreenProps> = ({
-  route,
-}) => {
+export const FavouritesScreen = () => {
   // const favouriteMealContext = useContext(FavouritesContext);
 
   const favouritesMealIds = useAppSelector(
@@ -29,7 +26,7 @@ export const FavouritesScreen: React.FC<FavouritesScreenProps> = ({
     favouritesMealIds.includes(meal.id),
   );
 
-  if (!meals) {
+  if (favouriteMeals.length === 0) {
     return (
       <View style={styles.rootContainer}>
         <Text style={styles.text}>
@@ -51,6 +48,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
   },
 });

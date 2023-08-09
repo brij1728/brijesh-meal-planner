@@ -8,6 +8,8 @@ npm install @react-navigation/stack
 npm install @expo/vector-icons
 
 npm install @react-navigation/drawer
+npm install @react-navigation/material-bottom-tabs react-native-paper react-native-vector-icons
+
 npx expo install react-native-gesture-handler react-native-reanimated
 npm install @react-navigation/bottom-tabs
 

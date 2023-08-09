@@ -6,7 +6,7 @@ import { CategoryGridTile } from '../components';
 import { CategoriesOverviewScreenProps } from '../navigation/NavigationType';
 import { Category } from '../types';
 
-export const CategoriesScreens: React.FC<CategoriesOverviewScreenProps> = ({
+export const CategoriesScreen: React.FC<CategoriesOverviewScreenProps> = ({
   navigation,
 }) => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -19,8 +19,10 @@ export const CategoriesScreens: React.FC<CategoriesOverviewScreenProps> = ({
   }, []);
 
   const renderCategoryItem = ({ item }: ListRenderItemInfo<Category>) => {
+    const catId = item.id.toString();
+    // console.log('catId', typeof catId);
     const pressHandler = () => {
-      navigation.navigate('MealsOverview', { categoryId: item.id });
+      navigation.navigate('MealsOverview', { categoryId: catId });
     };
     return (
       <CategoryGridTile
