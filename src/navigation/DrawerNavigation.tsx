@@ -3,11 +3,30 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 
 import { FavouritesScreen } from '../screens';
+import { useTabContext } from '../store';
 import { BottomNavigation } from './BottomNavigation';
 import { DrawerNavigatorParamsList } from './NavigationType';
 
 export const DrawerNavigation = () => {
   const Drawer = createDrawerNavigator<DrawerNavigatorParamsList>();
+
+  const { selectedTab } = useTabContext();
+
+  const getDrawerTitle = (tabName: string) => {
+    switch (tabName) {
+      case 'HomeBottom':
+        return 'Meals Categories';
+      case 'FavouriteBottom':
+        return 'Favourites';
+      case 'CraftMealBottom':
+        return 'Craft Meal';
+      case 'MenuBottom':
+        return 'Menu';
+      default:
+        return 'Drawer';
+    }
+  };
+
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -31,7 +50,7 @@ export const DrawerNavigation = () => {
         name="HomeDrawer"
         component={BottomNavigation}
         options={{
-          title: 'Meals Categories',
+          title: getDrawerTitle(selectedTab),
           drawerIcon: ({ focused, size, color }) => (
             <Ionicons name="list" size={size} color={color} focused={focused} />
           ),

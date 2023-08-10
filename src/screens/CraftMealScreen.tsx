@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export const CraftMealScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Menu Screen</Text>
+      <Text style={styles.text}>Craft Meal Screen</Text>
     </View>
   );
 };

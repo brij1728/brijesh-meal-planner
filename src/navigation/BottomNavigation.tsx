@@ -9,11 +9,14 @@ import {
   FavouritesScreen,
   MenuScreen,
 } from '../screens';
+import { useTabContext } from '../store';
 import { BottomNavigatorParamsList } from './NavigationType';
 
 const Tab = createMaterialBottomTabNavigator<BottomNavigatorParamsList>();
 
 export const BottomNavigation = () => {
+  const { setSelectedTab } = useTabContext();
+
   return (
     <Tab.Navigator
       // screenOptions={({ route }) => ({
@@ -58,6 +61,11 @@ export const BottomNavigation = () => {
             <Ionicons name="home" size={25} color={color} />
           ),
         }}
+        listeners={({ navigation, route }) => ({
+          tabPress: () => {
+            setSelectedTab('HomeBottom');
+          },
+        })}
       />
       <Tab.Screen
         name="FavouriteBottom"
@@ -68,6 +76,11 @@ export const BottomNavigation = () => {
             <Ionicons name="heart" size={25} color={color} />
           ),
         }}
+        listeners={({ navigation, route }) => ({
+          tabPress: () => {
+            setSelectedTab('FavouriteBottom');
+          },
+        })}
       />
       <Tab.Screen
         name="CraftMealBottom"
@@ -78,6 +91,11 @@ export const BottomNavigation = () => {
             <Ionicons name="fast-food" size={25} color={color} />
           ),
         }}
+        listeners={({ navigation, route }) => ({
+          tabPress: () => {
+            setSelectedTab('CraftMealBottom');
+          },
+        })}
       />
       <Tab.Screen
         name="MenuBottom"
@@ -88,6 +106,11 @@ export const BottomNavigation = () => {
             <Ionicons name="menu" size={25} color={color} />
           ),
         }}
+        listeners={({ navigation, route }) => ({
+          tabPress: () => {
+            setSelectedTab('MenuBottom');
+          },
+        })}
       />
     </Tab.Navigator>
   );
