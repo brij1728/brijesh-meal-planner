@@ -20,6 +20,7 @@ export type BottomNavigatorParamsList = {
   HomeBottom: NavigatorScreenParams<StackNavigatorParamsList>;
   FavouriteBottom: undefined;
   MenuBottom: undefined;
+  CraftMealBottom: undefined;
 };
 
 export type CategoriesOverviewScreenProps = CompositeScreenProps<

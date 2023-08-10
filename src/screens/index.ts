@@ -4,3 +4,4 @@ export * from './MealDetailsScreen';
 export * from './FavouritesScreen';
 export * from './MenuScreen';
 export * from './HomeScreen';
+export * from './CraftMealScreen';

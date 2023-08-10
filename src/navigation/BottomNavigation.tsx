@@ -3,7 +3,12 @@ import React from 'react';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { CategoriesScreen, FavouritesScreen, MenuScreen } from '../screens';
+import {
+  CategoriesScreen,
+  CraftMealScreen,
+  FavouritesScreen,
+  MenuScreen,
+} from '../screens';
 import { BottomNavigatorParamsList } from './NavigationType';
 
 const Tab = createMaterialBottomTabNavigator<BottomNavigatorParamsList>();
@@ -61,6 +66,16 @@ export const BottomNavigation = () => {
           title: 'Favourite',
           tabBarIcon: ({ color }) => (
             <Ionicons name="heart" size={25} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="CraftMealBottom"
+        component={CraftMealScreen}
+        options={{
+          title: 'Craft Meal',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="fast-food" size={25} color={color} />
           ),
         }}
       />
