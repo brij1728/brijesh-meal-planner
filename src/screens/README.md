@@ -26,3 +26,5 @@ npm run build:android:preview
 
 adb install app.brijesh.mealcrafters-development-build.apk
 adb uninstall app.brijesh.mealcrafters
+
+eas build --platform android

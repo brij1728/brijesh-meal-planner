@@ -22,7 +22,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "app.brijesh.mealcrafters"
+      "package": "app.brijesh.mealcrafters",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
