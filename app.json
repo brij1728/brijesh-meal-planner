@@ -2,7 +2,7 @@
   "expo": {
     "name": "Meal Crafters",
     "slug": "Meal-Crafters",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "backgroundColor": "#24180f",
