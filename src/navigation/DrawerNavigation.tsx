@@ -1,21 +1,41 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+  DrawerScreenProps,
+  createDrawerNavigator,
+} from '@react-navigation/drawer';
+import { StyleSheet, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
+import { Search } from '../components';
 import { FavouritesScreen } from '../screens';
+import { SearchResultsScreen } from '../screens/SearchResultScreen';
 import { useTabContext } from '../store';
 import { BottomNavigation } from './BottomNavigation';
 import { DrawerNavigatorParamsList } from './NavigationType';
 
-export const DrawerNavigation = () => {
+type DrawerNavigationProps = {
+  navigation: DrawerScreenProps<
+    DrawerNavigatorParamsList,
+    'HomeDrawer'
+  >['navigation'];
+};
+
+export const DrawerNavigation: React.FC<DrawerNavigationProps> = ({
+  navigation,
+}) => {
   const Drawer = createDrawerNavigator<DrawerNavigatorParamsList>();
 
   const { selectedTab } = useTabContext();
+  // const navigation = useNavigation();
+
+  const handleSearch = (searchText: string) => {
+    navigation.navigate('SearchResults', { searchQuery: searchText });
+  };
 
   const getDrawerTitle = (tabName: string) => {
     switch (tabName) {
       case 'HomeBottom':
-        return 'Meals Categories';
+        return 'Categories';
       case 'FavouriteBottom':
         return 'Favourites';
       case 'CraftMealBottom':
@@ -54,6 +74,12 @@ export const DrawerNavigation = () => {
           drawerIcon: ({ focused, size, color }) => (
             <Ionicons name="list" size={size} color={color} focused={focused} />
           ),
+          headerRight: () => (
+            <View style={styles.searchContainer}>
+              {/* <Text style={styles.headerTitle}>Meals Categories</Text> */}
+              <Search onSearch={(searchText) => handleSearch(searchText)} />
+            </View>
+          ),
         }}
       />
       <Drawer.Screen
@@ -66,6 +92,19 @@ export const DrawerNavigation = () => {
           ),
         }}
       />
+      <Drawer.Screen name="SearchResults" component={SearchResultsScreen} />
     </Drawer.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerTitle: {
+    color: '#fff',
+    fontSize: 20,
+    marginRight: 10,
+  },
+});

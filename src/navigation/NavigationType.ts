@@ -1,6 +1,6 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { DrawerScreenProps } from '@react-navigation/drawer';
-import type { CompositeScreenProps } from '@react-navigation/native';
+import type { CompositeScreenProps, RouteProp } from '@react-navigation/native';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
@@ -14,6 +14,7 @@ export type StackNavigatorParamsList = {
 export type DrawerNavigatorParamsList = {
   HomeDrawer: NavigatorScreenParams<StackNavigatorParamsList>;
   FavouriteDrawer: undefined;
+  SearchResults: { searchQuery: string };
 };
 
 export type BottomNavigatorParamsList = {
@@ -44,4 +45,9 @@ export type MealDetailsScreenProps = NativeStackScreenProps<
 export type FavouritesScreenProps = NativeStackScreenProps<
   StackNavigatorParamsList,
   'Favourites'
+>;
+
+export type SearchResultsRouteProp = RouteProp<
+  DrawerNavigatorParamsList,
+  'SearchResults'
 >;

@@ -2,10 +2,17 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { Search } from '../components';
+
 export const MenuScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Menu Screen</Text>
+      <Search
+        onSearch={function (searchText: string): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
     </View>
   );
 };

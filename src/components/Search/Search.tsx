@@ -7,10 +7,11 @@ interface SearchProps {
   onSearch: (searchText: string) => void;
 }
 
-export const Search: React.FC<SearchProps> = () => {
+export const Search: React.FC<SearchProps> = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const handleSearch = () => {
     console.log('Search for', searchQuery);
+    onSearch(searchQuery);
   };
   return (
     <View style={styles.container}>
