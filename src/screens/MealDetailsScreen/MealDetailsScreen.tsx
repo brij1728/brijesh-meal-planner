@@ -1,17 +1,19 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-
-import { fetchRecipeById } from '../api';
-import { IconButton, List, MealDetails, SubTitle } from '../components';
-import { MealDetailsScreenProps } from '../navigation';
 import {
   AppState,
   addFavourite,
   removeFavourite,
   useAppDispatch,
   useAppSelector,
-} from '../store';
-import { Meal } from '../types';
+} from '../../store';
+import { IconButton, List, MealDetails, SubTitle } from '../../components';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+
+import { Meal } from '../../types';
+import { MealDetailsScreenProps } from '../../navigation';
+import { ThemeType } from '../../theme/ThemeType';
+import { fetchRecipeById } from '../../api';
+import { useTheme } from '../../theme';
 
 // type MealDetailsScreenProps = StackScreenProps<
 //   StackNavigatorParamsList,
@@ -23,6 +25,7 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
   navigation,
 }) => {
   // const favouritesMealContext = useContext(FavouritesContext);
+  const { theme } = useTheme();
   const mealId = route.params.mealId;
 
   const favouritesMealIds = useAppSelector(
@@ -32,6 +35,8 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
   const dispatch = useAppDispatch();
 
   const [meals, setMeals] = useState<Meal | null>(null);
+
+  const styles = getStyles(theme);
 
   useEffect(() => {
     (async () => {
@@ -68,7 +73,7 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
         return (
           <IconButton
             iconName={mealIsFavourite ? 'ios-star' : 'ios-star-outline'}
-            color="#fff"
+            color={theme.primaryColors.primaryActive}
             onPress={changeFavouriteStatusHandler}
           />
         );
@@ -107,31 +112,32 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  rootContainer: {
-    marginBottom: 24,
-  },
-
-  image: {
-    width: '100%',
-    height: 350,
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 24,
-    textAlign: 'center',
-    margin: 8,
-    color: 'white',
-  },
-  detailText: {
-    color: 'black',
-  },
-  listOuterContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  listContainer: {
-    width: '80%',
-  },
-});
+const getStyles = (theme: ThemeType) => {
+  return StyleSheet.create({
+    rootContainer: {
+      marginBottom: 24,
+    },
+    image: {
+      width: '100%',
+      height: 350,
+    },
+    title: {
+      fontWeight: 'bold',
+      fontSize: 24,
+      textAlign: 'center',
+      margin: 8,
+      color: theme.primaryColors.primaryActive,
+    },
+    detailText: {
+      color: theme.primaryColors.primaryText,
+    },
+    listOuterContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    listContainer: {
+      width: '80%',
+    },
+  });
+};

@@ -1,10 +1,10 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
-import { Category } from '../types';
-import { SearchInput } from '../components';
-import { SearchResultsScreenProps } from '../navigation';
-import { fetchAllCategories } from '../api';
+import { Category } from '../../types';
+import { SearchInput } from '../../components';
+import { SearchResultsScreenProps } from '../../navigation';
+import { fetchAllCategories } from '../../api';
 
 export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
   route,

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { AppState, useAppSelector } from '../../store';
 import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
 
-import { fetchAllRecipes } from '../api';
-import { MealsList } from '../components';
-import { FavouritesScreenProps } from '../navigation';
-import { AppState, useAppSelector } from '../store';
-import { Meal } from '../types';
+import { FavouritesScreenProps } from '../../navigation';
+import { Meal } from '../../types';
+import { MealsList } from '../../components';
+import { fetchAllRecipes } from '../../api';
 
 export const FavouritesScreen: React.FC<FavouritesScreenProps> = () => {
   // const favouriteMealContext = useContext(FavouritesContext);

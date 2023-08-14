@@ -1,12 +1,12 @@
-import { StackNavigatorParamsList } from './NavigationType';
 import { MealDetailsScreen, MealsOverviewScreens } from '../screens';
-import { NavigationContainer } from '@react-navigation/native';
 import { customTheme, useTheme } from '../theme';
-import { useSelectedTab } from '../hooks';
 
 import { BottomNavigation } from './BottomNavigation';
+import { NavigationContainer } from '@react-navigation/native';
+import { StackNavigatorParamsList } from './NavigationType';
 import { TabContextProvider } from '../store';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSelectedTab } from '../hooks';
 
 const Stack = createNativeStackNavigator<StackNavigatorParamsList>();
 
@@ -18,7 +18,7 @@ export const AppNavigation = () => {
     <>
       <NavigationContainer theme={customTheme}>
         <TabContextProvider>
-          <Stack.Navigator>
+          <Stack.Navigator initialRouteName="CategoriesOverview">
             <Stack.Group
               screenOptions={{
                 headerStyle: {

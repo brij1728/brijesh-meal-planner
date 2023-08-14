@@ -1,10 +1,10 @@
 import { FlatList, ListRenderItemInfo } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
-import { CategoriesOverviewScreenProps } from '../navigation/NavigationType';
-import { Category } from '../types';
-import { CategoryGridTile } from '../components';
-import { fetchAllCategories } from '../api';
+import { CategoriesOverviewScreenProps } from '../../navigation/NavigationType';
+import { Category } from '../../types';
+import { CategoryGridTile } from '../../components';
+import { fetchAllCategories } from '../../api';
 
 export const CategoriesScreen: React.FC<CategoriesOverviewScreenProps> = ({
   navigation,

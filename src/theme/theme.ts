@@ -2,12 +2,11 @@ import { DefaultTheme } from '@react-navigation/native';
 import { ThemeType } from './ThemeType';
 
 export const primaryColors = {
-  primary_01: '#fff',
-  primary_02: '#ff4820',
-  primary_03: '#052d56',
+  primaryActive: '#FF6347',
+  primaryInactive: '#FFA8A1',
   primaryText: '#333533',
-  primaryBackground: '#FFFDDF',
-  primaryHeader: '#FF6347',
+  primaryBackground: '#FFF5E1',
+  primaryHeader: '#FFD8B1',
 };
 
 export const secondaryColors = {

@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { SearchResultsScreen } from '../screens/SearchResultScreen';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useSelectedTab } from '../hooks';
+import { useTheme } from '../theme';
 
 const Tab = createMaterialBottomTabNavigator<BottomNavigatorParamsList>();
 
@@ -23,6 +24,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   route,
   navigation,
 }) => {
+  const { theme } = useTheme();
   const { setSelectedTab } = useSelectedTab();
 
   const handleTabPress = (routeName: keyof BottomNavigatorParamsList) => {
@@ -62,10 +64,10 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
 
   return (
     <Tab.Navigator
-      activeColor="#723c3c"
-      inactiveColor="#fff"
+      activeColor={`${theme.primaryColors.primaryActive}`}
+      inactiveColor={`${theme.primaryColors.primaryInactive}`}
       barStyle={{
-        backgroundColor: '#be7242',
+        backgroundColor: `${theme.primaryColors.primaryHeader}`,
         position: 'absolute',
       }}
     >
@@ -77,6 +79,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
           tabBarIcon: ({ color }) => (
             <Ionicons name="home" size={25} color={color} />
           ),
+          tabBarColor: 'transparent', // Set the background color to transparent
         }}
         listeners={({ navigation, route }) => ({
           tabPress: () => {

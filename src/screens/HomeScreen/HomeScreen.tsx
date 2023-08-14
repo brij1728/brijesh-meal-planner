@@ -1,8 +1,9 @@
-// screens/HomeScreen.tsx
-import React from 'react';
 import { Button, Text, View } from 'react-native';
 
-export const HomeScreen: React.FC = ({ navigation }) => {
+// screens/HomeScreen.tsx
+import React from 'react';
+
+export const HomeScreen: React.FC = ({ navigation }: any) => {
   return (
     <View>
       <Text>Home Screen</Text>
