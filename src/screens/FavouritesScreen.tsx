@@ -3,10 +3,11 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { fetchAllRecipes } from '../api';
 import { MealsList } from '../components';
+import { FavouritesScreenProps } from '../navigation';
 import { AppState, useAppSelector } from '../store';
 import { Meal } from '../types';
 
-export const FavouritesScreen = () => {
+export const FavouritesScreen: React.FC<FavouritesScreenProps> = () => {
   // const favouriteMealContext = useContext(FavouritesContext);
 
   const favouritesMealIds = useAppSelector(

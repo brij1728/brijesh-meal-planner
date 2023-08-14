@@ -1,8 +1,7 @@
 import 'react-native-url-polyfill/auto';
 
+import App from './src/app';
 import { registerRootComponent } from 'expo';
-
-import App from './src/App';
 
 const Main = () => {
   return <App />;

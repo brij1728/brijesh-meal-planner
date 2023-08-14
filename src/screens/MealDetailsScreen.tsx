@@ -63,6 +63,7 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      title: meals?.title,
       headerRight: () => {
         return (
           <IconButton
@@ -73,7 +74,7 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
         );
       },
     });
-  }, [navigation, changeFavouriteStatusHandler, mealIsFavourite]);
+  }, [navigation, changeFavouriteStatusHandler, mealIsFavourite, meals?.title]);
 
   if (!meals) {
     return (

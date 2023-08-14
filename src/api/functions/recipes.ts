@@ -1,12 +1,15 @@
 import { Category, Meal } from '../../types';
-import { RecipesApi } from '../api-client';
 import { CategoryGet, RecipeGet } from '../generated';
 
+import { RecipesApi } from '../api-client';
+
 const getRandomColorForString = (str: string): string => {
-  // always return same hex code for same strings
+  // always return the same hex code for the same strings
   const hash = str.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
   const hue = hash % 360;
-  return `hsl(${hue}, 100%, 50%)`;
+  const saturation = 30; // Set saturation to 30% for a muted, pale color
+  const lightness = 85; // Set lightness to 85% for a light background
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 };
 
 const transformCategoryResponseToCategory = (

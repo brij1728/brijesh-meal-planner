@@ -1,9 +1,9 @@
+import { Category, Meal } from '../types';
+import { fetchCategoryById, fetchRecipesForCategory } from '../api';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
-import { fetchCategoryById, fetchRecipesForCategory } from '../api';
 import { MealsList } from '../components';
 import { MealsOverviewScreenProps } from '../navigation/NavigationType';
-import { Category, Meal } from '../types';
 
 export const MealsOverviewScreens: React.FC<MealsOverviewScreenProps> = ({
   route,

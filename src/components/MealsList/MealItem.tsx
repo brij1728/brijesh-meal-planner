@@ -1,4 +1,3 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
 import {
   Image,
   Platform,
@@ -7,9 +6,10 @@ import {
   Text,
   View,
 } from 'react-native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
-import { StackNavigatorParamsList } from '../../navigation/NavigationType';
-import { MealDetails } from '../MealDetails';
+import { MealDetails } from '../MealDetail';
+import { StackNavigatorParamsList } from '../../navigation';
 
 type MealItemNavigationProp = NavigationProp<
   StackNavigatorParamsList,

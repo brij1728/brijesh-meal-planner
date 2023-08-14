@@ -5,3 +5,4 @@ export * from './FavouritesScreen';
 export * from './MenuScreen';
 export * from './HomeScreen';
 export * from './CraftMealScreen';
+export * from './SearchResultScreen';

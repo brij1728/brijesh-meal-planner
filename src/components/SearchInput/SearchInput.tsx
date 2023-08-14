@@ -1,13 +1,13 @@
-import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { SearchBar } from '../SearchBar';
+import { useState } from 'react';
 
 interface SearchProps {
   onSearch: (searchText: string) => void;
 }
 
-export const Search: React.FC<SearchProps> = ({ onSearch }) => {
+export const SearchInput: React.FC<SearchProps> = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const handleSearch = () => {
     console.log('Search for', searchQuery);
@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100%',
+    // marginBottom: 50,
   },
   searchBar: {
     width: '100%',

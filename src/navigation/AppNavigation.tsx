@@ -1,59 +1,61 @@
+import { StackNavigatorParamsList } from './NavigationType';
+import { MealDetailsScreen, MealsOverviewScreens } from '../screens';
 import { NavigationContainer } from '@react-navigation/native';
+import { customTheme, useTheme } from '../theme';
+import { useSelectedTab } from '../hooks';
+
+import { BottomNavigation } from './BottomNavigation';
+import { TabContextProvider } from '../store';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { MealDetailsScreen, MealsOverviewScreens } from '../screens';
-import { TabContextProvider } from '../store';
-import { DrawerNavigation } from './DrawerNavigation';
-import { StackNavigatorParamsList } from './NavigationType';
+const Stack = createNativeStackNavigator<StackNavigatorParamsList>();
 
 export const AppNavigation = () => {
-  const Stack = createNativeStackNavigator<StackNavigatorParamsList>();
+  const { theme } = useTheme();
+  const { selectedTab } = useSelectedTab();
+
   return (
     <>
-      <NavigationContainer>
+      <NavigationContainer theme={customTheme}>
         <TabContextProvider>
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: true,
-              headerStyle: {
-                backgroundColor: '#0f3d5c',
-              },
-              headerTintColor: '#fff',
-              contentStyle: {
-                backgroundColor: '#be7242',
-              },
-            }}
-          >
-            <Stack.Screen
-              name="CategoriesOverview"
-              component={DrawerNavigation}
-              options={{
-                // title: 'Meals Categories',
-                headerShown: false,
-                contentStyle: {
-                  backgroundColor: '#1a0e06',
-                  shadowColor: '#c93e3e',
-                },
-              }}
-            />
-            <Stack.Screen
-              name="MealsOverview"
-              component={MealsOverviewScreens}
-              options={{
-                title: 'Meals Overview',
+          <Stack.Navigator>
+            <Stack.Group
+              screenOptions={{
                 headerStyle: {
-                  backgroundColor: '#4d7b2e',
+                  backgroundColor: `${theme.primaryColors.primaryHeader}`,
                 },
-                headerTintColor: '#fff',
+                headerTintColor: `${theme.primaryColors.primaryText}`,
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+                title:
+                  selectedTab === 'HomeBottom'
+                    ? 'Meal Categories'
+                    : selectedTab === 'FavouriteBottom'
+                    ? 'Favourites'
+                    : selectedTab === 'SearchBottom'
+                    ? 'Search'
+                    : selectedTab === 'MenuBottom'
+                    ? 'Menu'
+                    : selectedTab === 'CraftMealBottom'
+                    ? 'Craft Meal'
+                    : '',
+                headerShown: true,
               }}
-            />
-            <Stack.Screen
-              name="MealDetails"
-              component={MealDetailsScreen}
-              options={{
-                title: 'About the Meal',
-              }}
-            />
+            >
+              <Stack.Screen
+                name="CategoriesOverview"
+                component={BottomNavigation}
+                options={({ route }) => ({
+                  headerShown: true,
+                })}
+              />
+              <Stack.Screen
+                name="MealsOverview"
+                component={MealsOverviewScreens}
+              />
+              <Stack.Screen name="MealDetails" component={MealDetailsScreen} />
+            </Stack.Group>
           </Stack.Navigator>
         </TabContextProvider>
       </NavigationContainer>

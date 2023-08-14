@@ -2,16 +2,10 @@ import {
   DrawerScreenProps,
   createDrawerNavigator,
 } from '@react-navigation/drawer';
-import { StyleSheet, View } from 'react-native';
+import { MenuScreen } from '../screens';
 
-import { Ionicons } from '@expo/vector-icons';
-
-import { Search } from '../components';
-import { FavouritesScreen } from '../screens';
-import { SearchResultsScreen } from '../screens/SearchResultScreen';
-import { useTabContext } from '../store';
-import { BottomNavigation } from './BottomNavigation';
 import { DrawerNavigatorParamsList } from './NavigationType';
+import { Ionicons } from '@expo/vector-icons';
 
 type DrawerNavigationProps = {
   navigation: DrawerScreenProps<
@@ -20,32 +14,27 @@ type DrawerNavigationProps = {
   >['navigation'];
 };
 
-export const DrawerNavigation: React.FC<DrawerNavigationProps> = ({
-  navigation,
-}) => {
+export const DrawerNavigation = () => {
   const Drawer = createDrawerNavigator<DrawerNavigatorParamsList>();
 
-  const { selectedTab } = useTabContext();
-  // const navigation = useNavigation();
+  // const handleSearch = (searchText: string) => {
+  //   navigation.navigate('SearchResults', { searchQuery: searchText });
+  // };
 
-  const handleSearch = (searchText: string) => {
-    navigation.navigate('SearchResults', { searchQuery: searchText });
-  };
-
-  const getDrawerTitle = (tabName: string) => {
-    switch (tabName) {
-      case 'HomeBottom':
-        return 'Categories';
-      case 'FavouriteBottom':
-        return 'Favourites';
-      case 'CraftMealBottom':
-        return 'Craft Meal';
-      case 'MenuBottom':
-        return 'Menu';
-      default:
-        return 'Drawer';
-    }
-  };
+  // const getDrawerTitle = (tabName: string) => {
+  //   switch (tabName) {
+  //     case 'HomeBottom':
+  //       return 'Categories';
+  //     case 'FavouriteBottom':
+  //       return 'Favourites';
+  //     case 'CraftMealBottom':
+  //       return 'Craft Meal';
+  //     case 'MenuBottom':
+  //       return 'Menu';
+  //     default:
+  //       return 'Drawer';
+  //   }
+  // };
 
   return (
     <Drawer.Navigator
@@ -63,28 +52,12 @@ export const DrawerNavigation: React.FC<DrawerNavigationProps> = ({
         },
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#fff',
-        drawerActiveBackgroundColor: '#0f3d5c',
+        // drawerActiveBackgroundColor: '#0f3d5c',
       }}
     >
       <Drawer.Screen
-        name="HomeDrawer"
-        component={BottomNavigation}
-        options={{
-          title: getDrawerTitle(selectedTab),
-          drawerIcon: ({ focused, size, color }) => (
-            <Ionicons name="list" size={size} color={color} focused={focused} />
-          ),
-          headerRight: () => (
-            <View style={styles.searchContainer}>
-              {/* <Text style={styles.headerTitle}>Meals Categories</Text> */}
-              <Search onSearch={(searchText) => handleSearch(searchText)} />
-            </View>
-          ),
-        }}
-      />
-      <Drawer.Screen
         name="FavouriteDrawer"
-        component={FavouritesScreen}
+        component={MenuScreen}
         options={{
           title: 'Favourite ',
           drawerIcon: ({ focused, size, color }) => (
@@ -92,19 +65,18 @@ export const DrawerNavigation: React.FC<DrawerNavigationProps> = ({
           ),
         }}
       />
-      <Drawer.Screen name="SearchResults" component={SearchResultsScreen} />
     </Drawer.Navigator>
   );
 };
 
-const styles = StyleSheet.create({
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerTitle: {
-    color: '#fff',
-    fontSize: 20,
-    marginRight: 10,
-  },
-});
+// const styles = StyleSheet.create({
+//   searchContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//   },
+//   headerTitle: {
+//     color: '#fff',
+//     fontSize: 20,
+//     marginRight: 10,
+//   },
+// });

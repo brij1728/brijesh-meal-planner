@@ -1,50 +1,67 @@
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import React from 'react';
-
-import { Ionicons } from '@expo/vector-icons';
-
 import {
   CategoriesScreen,
   CraftMealScreen,
   FavouritesScreen,
   MenuScreen,
 } from '../screens';
-import { useTabContext } from '../store';
+import React, { useEffect } from 'react';
+
 import { BottomNavigatorParamsList } from './NavigationType';
+import { Ionicons } from '@expo/vector-icons';
+import { SearchResultsScreen } from '../screens/SearchResultScreen';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { useSelectedTab } from '../hooks';
 
 const Tab = createMaterialBottomTabNavigator<BottomNavigatorParamsList>();
 
-export const BottomNavigation = () => {
-  const { setSelectedTab } = useTabContext();
+type BottomNavigationProps = {
+  route: any; // Update with appropriate type if available
+  navigation: any; // Update with appropriate type if available
+};
+
+export const BottomNavigation: React.FC<BottomNavigationProps> = ({
+  route,
+  navigation,
+}) => {
+  const { setSelectedTab } = useSelectedTab();
+
+  const handleTabPress = (routeName: keyof BottomNavigatorParamsList) => {
+    setSelectedTab(routeName);
+
+    if (routeName === 'HomeBottom') {
+      navigation.navigate('CategoriesOverview', {
+        title: 'Meals Categories',
+      });
+    } else if (routeName === 'SearchBottom') {
+      navigation.navigate('SearchResults', {
+        title: 'Search',
+      });
+    } else if (routeName === 'FavouriteBottom') {
+      navigation.navigate('Favourites', {
+        title: 'Meals Favourite',
+      });
+    } else if (routeName === 'CraftMealBottom') {
+      navigation.navigate('CraftMealBottom', {
+        title: 'Craft Meal',
+      });
+    } else if (routeName === 'MenuBottom') {
+      navigation.navigate('MenuBottom', {
+        title: 'Menu',
+      });
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', (e: any) => {
+      const routeName = e.target;
+      handleTabPress(routeName as keyof BottomNavigatorParamsList);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <Tab.Navigator
-      // screenOptions={({ route }) => ({
-      //   tabBarIcon: ({ focused, color }) => {
-      //     let iconName;
-
-      //     if (route.name === 'HomeBottom') {
-      //       iconName = focused ? 'list' : 'list-outline';
-      //     } else if (route.name === 'FavouriteBottom') {
-      //       iconName = focused ? 'heart' : 'heart-outline'; // Use 'heart' icon for favourites
-      //     } else if (route.name === 'MenuBottom') {
-      //       iconName = 'menu';
-      //     }
-
-      //     return (
-      //       <Ionicons
-      //         menu={iconName}
-      //         color={color}
-      //         size={25}
-      //         style={{ opacity: route.name === 'HomeBottom' ? 1 : 0.8 }} // Adjust opacity based on focus
-      //       />
-      //     );
-      //   },
-      //   headerShown: true,
-      //   headerStyle: {
-      //     backgroundColor: '#0f3d5c',
-      //   },
-      // })}
       activeColor="#723c3c"
       inactiveColor="#fff"
       barStyle={{
@@ -64,6 +81,27 @@ export const BottomNavigation = () => {
         listeners={({ navigation, route }) => ({
           tabPress: () => {
             setSelectedTab('HomeBottom');
+            navigation.navigate('CategoriesOverview', {
+              title: 'Meals Categories',
+            });
+          },
+        })}
+      />
+      <Tab.Screen
+        name="SearchBottom"
+        component={SearchResultsScreen}
+        options={{
+          title: 'Search',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="search" size={25} color={color} />
+          ),
+        }}
+        listeners={({ navigation, route }) => ({
+          tabPress: () => {
+            setSelectedTab('SearchBottom');
+            navigation.navigate('Search', {
+              title: 'Search',
+            });
           },
         })}
       />
@@ -79,6 +117,9 @@ export const BottomNavigation = () => {
         listeners={({ navigation, route }) => ({
           tabPress: () => {
             setSelectedTab('FavouriteBottom');
+            navigation.navigate('Favourites', {
+              title: 'Meals Favourite',
+            });
           },
         })}
       />
@@ -94,9 +135,13 @@ export const BottomNavigation = () => {
         listeners={({ navigation, route }) => ({
           tabPress: () => {
             setSelectedTab('CraftMealBottom');
+            navigation.navigate('CategoriesOverview', {
+              title: 'Meals Categories',
+            });
           },
         })}
       />
+
       <Tab.Screen
         name="MenuBottom"
         component={MenuScreen}
@@ -109,6 +154,9 @@ export const BottomNavigation = () => {
         listeners={({ navigation, route }) => ({
           tabPress: () => {
             setSelectedTab('MenuBottom');
+            navigation.navigate('Menu', {
+              title: 'Menu',
+            });
           },
         })}
       />

@@ -1,24 +1,20 @@
-import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 
-import { fetchAllCategories } from '../api';
-import { SearchResultsRouteProp } from '../navigation';
 import { Category } from '../types';
+import { SearchInput } from '../components';
+import { SearchResultsScreenProps } from '../navigation';
+import { fetchAllCategories } from '../api';
 
-interface SearchResultsProps {
-  route: SearchResultsRouteProp; // Replace with the actual type if available
-}
-
-export const SearchResultsScreen: React.FC<SearchResultsProps> = ({
+export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
   route,
+  navigation,
 }) => {
-  const { searchQuery } = route.params;
+  const searchQuery = route.params?.searchQuery || '';
 
   const [categories, setCategories] = useState<Category[]>([]);
-
-  const matchingCategories = categories.filter((category) =>
-    category.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const [searchResults, setSearchResults] = useState<Category[]>([]);
+  const [currentSearch, setCurrentSearch] = useState(searchQuery);
 
   useEffect(() => {
     (async () => {
@@ -27,11 +23,21 @@ export const SearchResultsScreen: React.FC<SearchResultsProps> = ({
     })();
   }, []);
 
+  useEffect(() => {
+    const matchingCategories = categories.filter((category) =>
+      category.title.toLowerCase().includes(currentSearch.toLowerCase()),
+    );
+    setSearchResults(matchingCategories);
+  }, [currentSearch, categories]);
+
   return (
     <View style={styles.container}>
+      <SearchInput
+        onSearch={(searchText: string) => setCurrentSearch(searchText)}
+      />
       <Text style={styles.resultText}>Search Results for: {searchQuery}</Text>
       <FlatList
-        data={matchingCategories}
+        data={searchResults}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <Text style={styles.resultItem}>{item.title} (Category)</Text>
@@ -47,6 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   resultText: {
     fontSize: 18,
     fontWeight: 'bold',
