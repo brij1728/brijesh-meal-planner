@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { MealsList } from '../../components';
 import { MealsOverviewScreenProps } from '../../navigation/NavigationType';
 
-export const MealsOverviewScreens: React.FC<MealsOverviewScreenProps> = ({
+export const MealsOverviewScreen: React.FC<MealsOverviewScreenProps> = ({
   route,
   navigation,
 }) => {

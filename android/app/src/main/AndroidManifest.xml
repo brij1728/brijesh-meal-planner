@@ -28,7 +28,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="app.brijesh.mealcrafters"/>
         <data android:scheme="app.brijesh.mealcrafters"/>
-        <data android:scheme="exp+Meal Crafters"/>
+        <data android:scheme="exp+Meal-Crafters"/>
         <data android:scheme="exp+mealcrafters"/>
         <data android:scheme="exp+meal-crafters"/>
       </intent-filter>

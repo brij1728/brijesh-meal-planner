@@ -79,7 +79,13 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
         );
       },
     });
-  }, [navigation, changeFavouriteStatusHandler, mealIsFavourite, meals?.title]);
+  }, [
+    navigation,
+    changeFavouriteStatusHandler,
+    mealIsFavourite,
+    meals?.title,
+    theme.primaryColors.primaryActive,
+  ]);
 
   if (!meals) {
     return (

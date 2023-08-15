@@ -1,66 +1,23 @@
 import {
-  CategoriesScreen,
-  CraftMealScreen,
-  FavouritesScreen,
-  MenuScreen,
-} from '../screens';
-import React, { useEffect } from 'react';
+  CraftMealStackTab,
+  FavouritesStackTab,
+  HomeStackTab,
+  MenuStackTab,
+  SearchResultsStack,
+} from './stacks';
 
 import { BottomNavigatorParamsList } from './NavigationType';
 import { Ionicons } from '@expo/vector-icons';
-import { SearchResultsScreen } from '../screens/SearchResultScreen';
+import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { useSelectedTab } from '../hooks';
+import { useTabTitle } from '../store';
 import { useTheme } from '../theme';
 
 const Tab = createMaterialBottomTabNavigator<BottomNavigatorParamsList>();
 
-type BottomNavigationProps = {
-  route: any; // Update with appropriate type if available
-  navigation: any; // Update with appropriate type if available
-};
-
-export const BottomNavigation: React.FC<BottomNavigationProps> = ({
-  route,
-  navigation,
-}) => {
+export const BottomNavigation: React.FC = () => {
   const { theme } = useTheme();
-  const { setSelectedTab } = useSelectedTab();
-
-  const handleTabPress = (routeName: keyof BottomNavigatorParamsList) => {
-    setSelectedTab(routeName);
-
-    if (routeName === 'HomeBottom') {
-      navigation.navigate('CategoriesOverview', {
-        title: 'Meals Categories',
-      });
-    } else if (routeName === 'SearchBottom') {
-      navigation.navigate('SearchResults', {
-        title: 'Search',
-      });
-    } else if (routeName === 'FavouriteBottom') {
-      navigation.navigate('Favourites', {
-        title: 'Meals Favourite',
-      });
-    } else if (routeName === 'CraftMealBottom') {
-      navigation.navigate('CraftMealBottom', {
-        title: 'Craft Meal',
-      });
-    } else if (routeName === 'MenuBottom') {
-      navigation.navigate('MenuBottom', {
-        title: 'Menu',
-      });
-    }
-  };
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('tabPress', (e: any) => {
-      const routeName = e.target;
-      handleTabPress(routeName as keyof BottomNavigatorParamsList);
-    });
-
-    return unsubscribe;
-  }, [navigation]);
+  const { setTabTitle } = useTabTitle();
 
   return (
     <Tab.Navigator
@@ -72,18 +29,19 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
       }}
     >
       <Tab.Screen
-        name="HomeBottom"
-        component={CategoriesScreen}
+        name="HomeTab"
+        component={HomeStackTab}
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => (
             <Ionicons name="home" size={25} color={color} />
           ),
+
           tabBarColor: 'transparent', // Set the background color to transparent
         }}
         listeners={({ navigation, route }) => ({
           tabPress: () => {
-            setSelectedTab('HomeBottom');
+            setTabTitle('HomeTab');
             navigation.navigate('CategoriesOverview', {
               title: 'Meals Categories',
             });
@@ -91,8 +49,8 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         })}
       />
       <Tab.Screen
-        name="SearchBottom"
-        component={SearchResultsScreen}
+        name="SearchResultsTab"
+        component={SearchResultsStack}
         options={{
           title: 'Search',
           tabBarIcon: ({ color }) => (
@@ -101,16 +59,16 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         }}
         listeners={({ navigation, route }) => ({
           tabPress: () => {
-            setSelectedTab('SearchBottom');
-            navigation.navigate('Search', {
-              title: 'Search',
+            setTabTitle('SearchResultsTab');
+            navigation.navigate('SearchResults', {
+              searchQuery: 'Your search query here',
             });
           },
         })}
       />
       <Tab.Screen
-        name="FavouriteBottom"
-        component={FavouritesScreen}
+        name="FavouritesTab"
+        component={FavouritesStackTab}
         options={{
           title: 'Favourite',
           tabBarIcon: ({ color }) => (
@@ -119,16 +77,16 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         }}
         listeners={({ navigation, route }) => ({
           tabPress: () => {
-            setSelectedTab('FavouriteBottom');
-            navigation.navigate('Favourites', {
+            setTabTitle('Favourites');
+            navigation.navigate('FavouritesTab', {
               title: 'Meals Favourite',
             });
           },
         })}
       />
       <Tab.Screen
-        name="CraftMealBottom"
-        component={CraftMealScreen}
+        name="CraftMealTab"
+        component={CraftMealStackTab}
         options={{
           title: 'Craft Meal',
           tabBarIcon: ({ color }) => (
@@ -137,17 +95,17 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         }}
         listeners={({ navigation, route }) => ({
           tabPress: () => {
-            setSelectedTab('CraftMealBottom');
-            navigation.navigate('CategoriesOverview', {
-              title: 'Meals Categories',
+            setTabTitle('CraftMealTab');
+            navigation.navigate('CraftMeal', {
+              title: 'Craft Meal',
             });
           },
         })}
       />
 
       <Tab.Screen
-        name="MenuBottom"
-        component={MenuScreen}
+        name="MenuTab"
+        component={MenuStackTab}
         options={{
           title: 'Menu',
           tabBarIcon: ({ color }) => (
@@ -156,7 +114,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         }}
         listeners={({ navigation, route }) => ({
           tabPress: () => {
-            setSelectedTab('MenuBottom');
+            setTabTitle('Menu');
             navigation.navigate('Menu', {
               title: 'Menu',
             });

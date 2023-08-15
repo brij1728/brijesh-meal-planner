@@ -31,7 +31,7 @@ const getStyles = (theme: ThemeType) => {
       marginVertical: 4,
       padding: 6,
       textAlign: 'center',
-      borderBottomColor: 'rgb(226, 230, 221)',
+      borderBottomColor: theme.primaryColors.primaryActive,
       borderBottomWidth: 2,
     },
   });

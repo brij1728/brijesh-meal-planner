@@ -1,7 +1,6 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import type { CompositeScreenProps } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { NavigatorScreenParams } from '@react-navigation/native';
 
 export type StackNavigatorParamsList = {
   CategoriesOverview: undefined;
@@ -11,27 +10,26 @@ export type StackNavigatorParamsList = {
   SearchResults: { searchQuery: string };
   Menu: undefined;
   CraftMeal: undefined;
-};
-
-export type DrawerNavigatorParamsList = {
-  HomeDrawer: NavigatorScreenParams<StackNavigatorParamsList>;
-  FavouriteDrawer: { mealId: string };
-  SearchResults: { searchQuery: string };
+  HomeTab: undefined;
 };
 
 export type BottomNavigatorParamsList = {
-  HomeBottom: NavigatorScreenParams<StackNavigatorParamsList>;
-  FavouriteBottom: { mealId: string };
-  MenuBottom: undefined;
-  CraftMealBottom: undefined;
-  SearchBottom: { searchQuery: string };
+  HomeTab: undefined;
+  FavouritesTab: { mealId: string };
+  MenuTab: undefined;
+  CraftMealTab: undefined;
+  SearchResultsTab: { searchQuery: string };
 };
 
-export type CategoriesOverviewScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<BottomNavigatorParamsList, 'HomeBottom'>,
+export type HomeTabProps = CompositeScreenProps<
+  BottomTabScreenProps<BottomNavigatorParamsList, 'HomeTab'>,
   NativeStackScreenProps<StackNavigatorParamsList, 'CategoriesOverview'>
 >;
 
+export type CategoriesOverviewScreenProps = NativeStackScreenProps<
+  StackNavigatorParamsList,
+  'CategoriesOverview'
+>;
 export type MealsOverviewScreenProps = NativeStackScreenProps<
   StackNavigatorParamsList,
   'MealsOverview'
@@ -42,12 +40,28 @@ export type MealDetailsScreenProps = NativeStackScreenProps<
   'MealDetails'
 >;
 
-export type FavouritesScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<BottomNavigatorParamsList, 'FavouriteBottom'>,
-  NativeStackScreenProps<StackNavigatorParamsList, 'Favourites'>
+export type FavouritesScreenProps = NativeStackScreenProps<
+  StackNavigatorParamsList,
+  'Favourites'
 >;
 
-export type SearchResultsScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<BottomNavigatorParamsList, 'SearchBottom'>,
-  NativeStackScreenProps<StackNavigatorParamsList, 'SearchResults'>
+export type SearchResultsScreenProps = NativeStackScreenProps<
+  StackNavigatorParamsList,
+  'SearchResults'
 >;
+
+export type SearchStackParamsList = {
+  SearchResults: { searchQuery: string };
+};
+
+export type FavouriteStackParamsList = {
+  Favourites: { mealId: string };
+};
+
+export type MenuStackParamsList = {
+  Menu: undefined;
+};
+
+export type CraftMealStackParamsList = {
+  CraftMeal: undefined;
+};
