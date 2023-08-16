@@ -1,12 +1,20 @@
 import { SearchResultsScreen } from '../../screens';
 import { SearchStackParamsList } from '../NavigationType';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useTheme } from '../../theme';
 
 const SearchStack = createNativeStackNavigator<SearchStackParamsList>();
 
 export const SearchResultsStack = () => {
+  const { theme } = useTheme();
   return (
-    <SearchStack.Navigator>
+    <SearchStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: theme.primaryColors.primaryHeader,
+        },
+      }}
+    >
       <SearchStack.Screen
         name="SearchResults"
         component={SearchResultsScreen}

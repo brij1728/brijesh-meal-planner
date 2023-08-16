@@ -55,7 +55,7 @@ export const BottomNavigation: React.FC = () => {
   return (
     <Tab.Navigator
       activeColor={`${theme.primaryColors.primaryActive}`}
-      inactiveColor={`${theme.primaryColors.primaryInactive}`}
+      inactiveColor={`${theme.primaryColors.primaryActive}`}
       barStyle={{
         backgroundColor: `${theme.primaryColors.primaryHeader}`,
         position: 'absolute',
