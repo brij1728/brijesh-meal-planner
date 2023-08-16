@@ -1,71 +1,157 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { Button, FlatList, StyleSheet, View } from 'react-native';
+import { Category, Meal } from '../../types';
+import { CategoryGridTile, MealItem, SearchInput } from '../../components';
 import React, { useEffect, useState } from 'react';
+import { ThemeType, useTheme } from '../../theme';
+import { fetchAllCategories, fetchAllRecipes } from '../../api';
 
-import { Category } from '../../types';
-import { SearchInput } from '../../components';
 import { SearchResultsScreenProps } from '../../navigation';
-import { fetchAllCategories } from '../../api';
 
 export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
   route,
   navigation,
 }) => {
   const searchQuery = route.params?.searchQuery || '';
-  console.log(route.params, 'route');
+  const { theme } = useTheme();
+  const styles = getStyles(theme);
 
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [searchResults, setSearchResults] = useState<Category[]>([]);
+  const [allCategories, setAllCategories] = useState<Category[]>([]);
+  const [allMeals, setAllMeals] = useState<Meal[]>([]);
   const [currentSearch, setCurrentSearch] = useState(searchQuery);
+  const [filteredMeals, setFilteredMeals] = useState<Meal[]>([]);
+  const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
+
+  const [showCategories, setShowCategories] = useState(false);
+
+  const toggleCategories = () => {
+    setShowCategories((prevState) => !prevState);
+  };
 
   useEffect(() => {
-    (async () => {
+    const fetchCategories = async () => {
       try {
         const data = await fetchAllCategories();
-        setCategories(data);
+        setAllCategories(data);
       } catch (error) {
-        console.error('Failed fetching categories:', error);
+        console.error('Failed to fetch categories:', error);
       }
-    })();
+    };
+
+    const fetchMeals = async () => {
+      try {
+        const data = await fetchAllRecipes();
+        setAllMeals(data);
+      } catch (error) {
+        console.error('Failed to fetch meals:', error);
+      }
+    };
+
+    fetchCategories();
+    fetchMeals();
   }, []);
 
   useEffect(() => {
-    const matchingCategories = categories.filter((category) =>
-      category.title.toLowerCase().includes(currentSearch.toLowerCase()),
-    );
-    setSearchResults(matchingCategories);
-  }, [currentSearch, categories]);
+    const matchingCategories = currentSearch
+      ? allCategories.filter((category) =>
+          category.title.toLowerCase().includes(currentSearch.toLowerCase()),
+        )
+      : [];
+
+    const matchingMeals = currentSearch
+      ? allMeals.filter((meal) =>
+          meal.title.toLowerCase().includes(currentSearch.toLowerCase()),
+        )
+      : [];
+
+    setFilteredCategories(matchingCategories);
+    setFilteredMeals(matchingMeals);
+  }, [currentSearch, allCategories, allMeals]);
+
+  const navigateToCategory = (categoryId: string) => {
+    navigation.navigate('MealsOverview', { categoryId });
+  };
+
+  const navigateToMeal = (mealId: string) => {
+    navigation.navigate('MealDetails', { mealId });
+  };
+
+  const renderCategory = (category: Category) => (
+    <CategoryGridTile
+      title={category.title}
+      color={category.color}
+      onPress={() => navigateToCategory(category.id)}
+    />
+  );
+
+  const renderMeal = (meal: Meal) => (
+    <MealItem
+      key={meal.id}
+      title={meal.title}
+      imageUrl={meal.imageUrl}
+      onPress={() => navigateToMeal(meal.id)}
+      duration={meal.duration}
+      complexity={meal.complexity}
+      affordability={meal.affordability}
+      id={meal.id}
+    />
+  );
+
+  const handleSearch = (query: string) => {
+    setCurrentSearch(query);
+  };
 
   return (
     <View style={styles.container}>
-      <SearchInput
-        onSearch={(searchText: string) => setCurrentSearch(searchText)}
-      />
-      <Text style={styles.resultText}>Search Results for: {searchQuery}</Text>
+      <SearchInput onSearch={handleSearch} />
       <FlatList
-        data={searchResults}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <Text style={styles.resultItem}>{item.title} (Category)</Text>
-        )}
+        data={filteredMeals}
+        renderItem={({ item }) => renderMeal(item as Meal)}
+        keyExtractor={(item: Meal) => item.id}
       />
+      <Button title="Toggle Categories" onPress={toggleCategories} />
+      {showCategories && (
+        <FlatList
+          data={filteredCategories}
+          renderItem={({ item }) => renderCategory(item as Category)}
+          keyExtractor={(item: Category) => item.id}
+          numColumns={2}
+          style={styles.categoriesList}
+        />
+      )}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  resultText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  resultItem: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
-});
+const getStyles = (theme: ThemeType) => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 10,
+      backgroundColor: '#F6F6F6',
+    },
+    resultText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginVertical: 15,
+      color: theme.primaryColors.primaryText,
+    },
+    sectionHeader: {
+      fontSize: 22,
+      fontWeight: '600',
+      color: theme.primaryColors.primaryHeader,
+      marginBottom: 10,
+    },
+    categoryItem: {
+      flex: 0.5,
+      margin: 5,
+      height: 150,
+    },
+    mealItem: {
+      flex: 1,
+      marginVertical: 10,
+    },
+    categoriesList: {
+      flex: 1,
+    },
+  });
+};

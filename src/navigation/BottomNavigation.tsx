@@ -1,4 +1,3 @@
-//BottomNavigation.tsx
 import {
   CraftMealStackTab,
   FavouritesStackTab,
@@ -9,57 +8,54 @@ import {
 
 import { BottomNavigatorParamsList } from './NavigationType';
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useTabTitle } from '../store';
 import { useTheme } from '../theme';
 
 const Tab = createMaterialBottomTabNavigator<BottomNavigatorParamsList>();
 
+const ICON_SIZE = 20; // Default icon size
+
 export const BottomNavigation: React.FC = () => {
   const { theme } = useTheme();
   const { setTabTitle } = useTabTitle();
+
+  // const styles = getStyles(theme);
 
   const handleTabPress = (routeName: keyof BottomNavigatorParamsList) => {
     switch (routeName) {
       case 'HomeTab':
         setTabTitle('HomeTab');
-        console.log('HomeTab');
         return { name: 'HomeTab' };
       case 'SearchResultsTab':
         setTabTitle('SearchResultsTab');
-        console.log('Navigating to:', routeName, 'with parameters:', {
-          searchQuery: 'Your search query here',
-        });
         return {
           name: 'SearchResultsTab',
           params: { searchQuery: 'Your search query here' },
         };
       case 'FavouritesTab':
         setTabTitle('Favourites');
-        console.log('FavouritesTab');
         return { name: 'FavouritesTab' };
       case 'CraftMealTab':
         setTabTitle('CraftMealTab');
-        console.log('CraftMealTab');
         return { name: 'CraftMealTab' };
       case 'MenuTab':
         setTabTitle('Menu');
-        console.log('MenuTab');
         return { name: 'MenuTab' };
       default:
-        return { name: 'HomeTab' }; // default navigation if none of the cases match
+        return { name: 'HomeTab' }; // Default to HomeTab
     }
   };
 
   return (
     <Tab.Navigator
       activeColor={`${theme.primaryColors.primaryActive}`}
-      inactiveColor={`${theme.primaryColors.primaryActive}`}
+      inactiveColor={`${theme.primaryColors.primaryInactive}`}
       barStyle={{
         backgroundColor: `${theme.primaryColors.primaryHeader}`,
         position: 'absolute',
       }}
+      initialRouteName="HomeTab"
     >
       <Tab.Screen
         name="HomeTab"
@@ -67,7 +63,7 @@ export const BottomNavigation: React.FC = () => {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="home" size={25} color={color} />
+            <Ionicons name="heart" size={ICON_SIZE} color={color} />
           ),
         }}
         listeners={({ navigation }) => ({
@@ -83,8 +79,9 @@ export const BottomNavigation: React.FC = () => {
         options={{
           title: 'Search',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="search" size={25} color={color} />
+            <Ionicons name="search" size={ICON_SIZE} color={color} />
           ),
+          tabBarColor: `${theme.primaryColors.primaryActive}`,
         }}
         listeners={({ navigation }) => ({
           tabPress: (e) => {
@@ -99,7 +96,7 @@ export const BottomNavigation: React.FC = () => {
         options={{
           title: 'Favourite',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="heart" size={25} color={color} />
+            <Ionicons name="heart" size={ICON_SIZE} color={color} />
           ),
         }}
         listeners={({ navigation }) => ({
@@ -115,7 +112,7 @@ export const BottomNavigation: React.FC = () => {
         options={{
           title: 'Craft Meal',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="fast-food" size={25} color={color} />
+            <Ionicons name="fast-food" size={ICON_SIZE} color={color} />
           ),
         }}
         listeners={({ navigation }) => ({
@@ -131,7 +128,7 @@ export const BottomNavigation: React.FC = () => {
         options={{
           title: 'Menu',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="menu" size={25} color={color} />
+            <Ionicons name="menu" size={ICON_SIZE} color={color} />
           ),
         }}
         listeners={({ navigation }) => ({
@@ -144,3 +141,16 @@ export const BottomNavigation: React.FC = () => {
     </Tab.Navigator>
   );
 };
+
+// const getStyles = (theme: ThemeType) => {
+//   return StyleSheet.create({
+//     iconContainer: {
+//       justifyContent: 'center',
+//       alignItems: 'center',
+//       borderRadius: 175, // This creates the rounded elliptical effect
+//       borderWidth: 2.5,
+//       borderColor: 'transparent', // By default, the border color is transparent
+//       padding: 5,
+//     },
+//   });
+// };
