@@ -1,3 +1,4 @@
+//BottomNavigation.tsx
 import {
   CraftMealStackTab,
   FavouritesStackTab,
@@ -19,6 +20,38 @@ export const BottomNavigation: React.FC = () => {
   const { theme } = useTheme();
   const { setTabTitle } = useTabTitle();
 
+  const handleTabPress = (routeName: keyof BottomNavigatorParamsList) => {
+    switch (routeName) {
+      case 'HomeTab':
+        setTabTitle('HomeTab');
+        console.log('HomeTab');
+        return { name: 'HomeTab' };
+      case 'SearchResultsTab':
+        setTabTitle('SearchResultsTab');
+        console.log('Navigating to:', routeName, 'with parameters:', {
+          searchQuery: 'Your search query here',
+        });
+        return {
+          name: 'SearchResultsTab',
+          params: { searchQuery: 'Your search query here' },
+        };
+      case 'FavouritesTab':
+        setTabTitle('Favourites');
+        console.log('FavouritesTab');
+        return { name: 'FavouritesTab' };
+      case 'CraftMealTab':
+        setTabTitle('CraftMealTab');
+        console.log('CraftMealTab');
+        return { name: 'CraftMealTab' };
+      case 'MenuTab':
+        setTabTitle('Menu');
+        console.log('MenuTab');
+        return { name: 'MenuTab' };
+      default:
+        return { name: 'HomeTab' }; // default navigation if none of the cases match
+    }
+  };
+
   return (
     <Tab.Navigator
       activeColor={`${theme.primaryColors.primaryActive}`}
@@ -36,15 +69,11 @@ export const BottomNavigation: React.FC = () => {
           tabBarIcon: ({ color }) => (
             <Ionicons name="home" size={25} color={color} />
           ),
-
-          tabBarColor: 'transparent', // Set the background color to transparent
         }}
-        listeners={({ navigation, route }) => ({
-          tabPress: () => {
-            setTabTitle('HomeTab');
-            navigation.navigate('CategoriesOverview', {
-              title: 'Meals Categories',
-            });
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(handleTabPress('HomeTab'));
           },
         })}
       />
@@ -57,12 +86,10 @@ export const BottomNavigation: React.FC = () => {
             <Ionicons name="search" size={25} color={color} />
           ),
         }}
-        listeners={({ navigation, route }) => ({
-          tabPress: () => {
-            setTabTitle('SearchResultsTab');
-            navigation.navigate('SearchResults', {
-              searchQuery: 'Your search query here',
-            });
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(handleTabPress('SearchResultsTab'));
           },
         })}
       />
@@ -75,12 +102,10 @@ export const BottomNavigation: React.FC = () => {
             <Ionicons name="heart" size={25} color={color} />
           ),
         }}
-        listeners={({ navigation, route }) => ({
-          tabPress: () => {
-            setTabTitle('Favourites');
-            navigation.navigate('FavouritesTab', {
-              title: 'Meals Favourite',
-            });
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(handleTabPress('FavouritesTab'));
           },
         })}
       />
@@ -93,16 +118,13 @@ export const BottomNavigation: React.FC = () => {
             <Ionicons name="fast-food" size={25} color={color} />
           ),
         }}
-        listeners={({ navigation, route }) => ({
-          tabPress: () => {
-            setTabTitle('CraftMealTab');
-            navigation.navigate('CraftMeal', {
-              title: 'Craft Meal',
-            });
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(handleTabPress('CraftMealTab'));
           },
         })}
       />
-
       <Tab.Screen
         name="MenuTab"
         component={MenuStackTab}
@@ -112,12 +134,10 @@ export const BottomNavigation: React.FC = () => {
             <Ionicons name="menu" size={25} color={color} />
           ),
         }}
-        listeners={({ navigation, route }) => ({
-          tabPress: () => {
-            setTabTitle('Menu');
-            navigation.navigate('Menu', {
-              title: 'Menu',
-            });
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(handleTabPress('MenuTab'));
           },
         })}
       />

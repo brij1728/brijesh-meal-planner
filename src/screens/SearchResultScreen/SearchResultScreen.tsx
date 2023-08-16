@@ -11,6 +11,7 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
   navigation,
 }) => {
   const searchQuery = route.params?.searchQuery || '';
+  console.log(route.params, 'route');
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchResults, setSearchResults] = useState<Category[]>([]);
@@ -18,8 +19,12 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
 
   useEffect(() => {
     (async () => {
-      const data = await fetchAllCategories();
-      setCategories(data);
+      try {
+        const data = await fetchAllCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error('Failed fetching categories:', error);
+      }
     })();
   }, []);
 
