@@ -63,7 +63,7 @@ export const BottomNavigation: React.FC = () => {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="heart" size={ICON_SIZE} color={color} />
+            <Ionicons name="home" size={ICON_SIZE} color={color} />
           ),
         }}
         listeners={({ navigation }) => ({

@@ -1,11 +1,17 @@
-import { Button, FlatList, StyleSheet, View } from 'react-native';
-import { Category, Meal } from '../../types';
-import { CategoryGridTile, MealItem, SearchInput } from '../../components';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { MealItem, SearchInput } from '../../components';
 import React, { useEffect, useState } from 'react';
 import { ThemeType, useTheme } from '../../theme';
-import { fetchAllCategories, fetchAllRecipes } from '../../api';
 
+import { Meal } from '../../types';
 import { SearchResultsScreenProps } from '../../navigation';
+import { fetchAllRecipes } from '../../api';
 
 export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
   route,
@@ -15,28 +21,16 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
   const { theme } = useTheme();
   const styles = getStyles(theme);
 
-  const [allCategories, setAllCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [allMeals, setAllMeals] = useState<Meal[]>([]);
   const [currentSearch, setCurrentSearch] = useState(searchQuery);
+  const [searchSuggestions, setSearchSuggestions] = useState<Meal[]>([]);
   const [filteredMeals, setFilteredMeals] = useState<Meal[]>([]);
-  const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
-
-  const [showCategories, setShowCategories] = useState(false);
-
-  const toggleCategories = () => {
-    setShowCategories((prevState) => !prevState);
-  };
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await fetchAllCategories();
-        setAllCategories(data);
-      } catch (error) {
-        console.error('Failed to fetch categories:', error);
-      }
-    };
-
+    setIsLoading(true);
     const fetchMeals = async () => {
       try {
         const data = await fetchAllRecipes();
@@ -45,43 +39,46 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
         console.error('Failed to fetch meals:', error);
       }
     };
-
-    fetchCategories();
+    setIsLoading(false);
     fetchMeals();
   }, []);
 
   useEffect(() => {
-    const matchingCategories = currentSearch
-      ? allCategories.filter((category) =>
-          category.title.toLowerCase().includes(currentSearch.toLowerCase()),
-        )
-      : [];
+    if (currentSearch.length > 0) {
+      const matchingMeals = allMeals.filter((meal) =>
+        meal.title.toLowerCase().includes(currentSearch.toLowerCase()),
+      );
 
-    const matchingMeals = currentSearch
-      ? allMeals.filter((meal) =>
-          meal.title.toLowerCase().includes(currentSearch.toLowerCase()),
-        )
-      : [];
+      setFilteredMeals(matchingMeals);
+      setShowSuggestions(false);
+    } else {
+      setFilteredMeals(allMeals.slice(0, 5));
+    }
+  }, [currentSearch, allMeals]);
 
-    setFilteredCategories(matchingCategories);
-    setFilteredMeals(matchingMeals);
-  }, [currentSearch, allCategories, allMeals]);
+  const handleSuggestionClick = (suggestion: string) => {
+    setCurrentSearch(suggestion);
+    setShowSuggestions(false);
+  };
 
-  const navigateToCategory = (categoryId: string) => {
-    navigation.navigate('MealsOverview', { categoryId });
+  const handleSearch = (query: string) => {
+    setCurrentSearch(query);
+
+    if (query.length > 0) {
+      const matchingSuggestions = allMeals.filter((meal) =>
+        meal.title.toLowerCase().startsWith(query.toLowerCase()),
+      );
+
+      setSearchSuggestions(matchingSuggestions.slice(0, 5));
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
   };
 
   const navigateToMeal = (mealId: string) => {
     navigation.navigate('MealDetails', { mealId });
   };
-
-  const renderCategory = (category: Category) => (
-    <CategoryGridTile
-      title={category.title}
-      color={category.color}
-      onPress={() => navigateToCategory(category.id)}
-    />
-  );
 
   const renderMeal = (meal: Meal) => (
     <MealItem
@@ -96,27 +93,38 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
     />
   );
 
-  const handleSearch = (query: string) => {
-    setCurrentSearch(query);
-  };
-
   return (
     <View style={styles.container}>
       <SearchInput onSearch={handleSearch} />
-      <FlatList
-        data={filteredMeals}
-        renderItem={({ item }) => renderMeal(item as Meal)}
-        keyExtractor={(item: Meal) => item.id}
-      />
-      <Button title="Toggle Categories" onPress={toggleCategories} />
-      {showCategories && (
-        <FlatList
-          data={filteredCategories}
-          renderItem={({ item }) => renderCategory(item as Category)}
-          keyExtractor={(item: Category) => item.id}
-          numColumns={2}
-          style={styles.categoriesList}
+      {isLoading ? (
+        <ActivityIndicator
+          size="large"
+          color={theme.primaryColors.primaryText}
         />
+      ) : (
+        <>
+          {showSuggestions && searchSuggestions.length > 0 && (
+            <FlatList
+              data={searchSuggestions}
+              renderItem={({ item }) => (
+                <Text
+                  onPress={() => handleSuggestionClick(item.title)}
+                  style={styles.suggestionText}
+                >
+                  {item.title}
+                </Text>
+              )}
+              keyExtractor={(item: Meal) => item.id}
+              style={styles.suggestionsList}
+              key="suggestions-list"
+            />
+          )}
+          <FlatList
+            data={filteredMeals}
+            renderItem={({ item }) => renderMeal(item as Meal)}
+            keyExtractor={(item: Meal) => item.id}
+          />
+        </>
       )}
     </View>
   );
@@ -129,29 +137,14 @@ const getStyles = (theme: ThemeType) => {
       padding: 10,
       backgroundColor: '#F6F6F6',
     },
-    resultText: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginVertical: 15,
-      color: theme.primaryColors.primaryText,
+    suggestionsList: {
+      height: 100, // Adjust this based on your needs
     },
-    sectionHeader: {
-      fontSize: 22,
-      fontWeight: '600',
-      color: theme.primaryColors.primaryHeader,
-      marginBottom: 10,
+    suggestionText: {
+      padding: 10,
+      backgroundColor: '#e0e0e0',
+      marginVertical: 2,
     },
-    categoryItem: {
-      flex: 0.5,
-      margin: 5,
-      height: 150,
-    },
-    mealItem: {
-      flex: 1,
-      marginVertical: 10,
-    },
-    categoriesList: {
-      flex: 1,
-    },
+    // ... rest of your styles
   });
 };

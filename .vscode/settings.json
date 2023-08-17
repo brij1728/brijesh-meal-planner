@@ -12,11 +12,14 @@
     "hextohsl",
     "Ionicons",
     "Neue",
+    "openapi",
+    "openapitools",
     "prebuild",
     "Pressable",
     "reduxjs",
     "Searchbar",
-    "stackroutes"
+    "stackroutes",
+    "trivago"
   ],
   "java.compile.nullAnalysis.mode": "automatic",
   "java.configuration.updateBuildConfiguration": "disabled"
