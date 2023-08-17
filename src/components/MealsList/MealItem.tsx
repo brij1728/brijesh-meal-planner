@@ -38,17 +38,25 @@ export const MealItem: React.FC<MealItemProps> = ({
   complexity,
   affordability,
   style,
+  onPress,
 }) => {
   const navigation = useNavigation<MealItemNavigationProp>();
   const { theme } = useTheme();
   const styles = getStyles(theme);
 
   const pressHandler = () => {
-    console.log(`${'pressed'} press`);
-    navigation.navigate('MealDetails', {
-      mealId: id,
-    });
+    if (onPress) {
+      // If an onPress prop is provided, use that
+      onPress();
+    } else {
+      // If not, default to navigation
+      console.log('pressed press');
+      navigation.navigate('MealDetails', {
+        mealId: id,
+      });
+    }
   };
+
   return (
     <View style={[styles.mealItem, style]}>
       <Pressable

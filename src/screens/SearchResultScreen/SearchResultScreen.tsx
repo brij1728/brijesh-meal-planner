@@ -1,17 +1,11 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
 import { MealItem, SearchInput } from '../../components';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ThemeType, useTheme } from '../../theme';
+import { useFetchAllMeals, useSearch } from './hooks';
 
 import { Meal } from '../../types';
 import { SearchResultsScreenProps } from '../../navigation';
-import { fetchAllRecipes } from '../../api';
 
 export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
   route,
@@ -21,63 +15,40 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
   const { theme } = useTheme();
   const styles = getStyles(theme);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const { allMeals, isLoading } = useFetchAllMeals();
+  const {
+    currentSearch,
+    setCurrentSearch,
+    filteredMeals,
+    searchByMealNameOrCategory,
+  } = useSearch(allMeals);
 
-  const [allMeals, setAllMeals] = useState<Meal[]>([]);
-  const [currentSearch, setCurrentSearch] = useState(searchQuery);
-  const [searchSuggestions, setSearchSuggestions] = useState<Meal[]>([]);
-  const [filteredMeals, setFilteredMeals] = useState<Meal[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const hasMounted = useRef(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    const fetchMeals = async () => {
-      try {
-        const data = await fetchAllRecipes();
-        setAllMeals(data);
-      } catch (error) {
-        console.error('Failed to fetch meals:', error);
+    if (!hasMounted.current) {
+      if (searchQuery) {
+        setCurrentSearch(searchQuery);
       }
-    };
-    setIsLoading(false);
-    fetchMeals();
-  }, []);
+      hasMounted.current = true;
+    }
+  }, [searchQuery, setCurrentSearch]);
 
   useEffect(() => {
-    if (currentSearch.length > 0) {
-      const matchingMeals = allMeals.filter((meal) =>
-        meal.title.toLowerCase().includes(currentSearch.toLowerCase()),
-      );
-
-      setFilteredMeals(matchingMeals);
-      setShowSuggestions(false);
-    } else {
-      setFilteredMeals(allMeals.slice(0, 5));
+    if (currentSearch) {
+      searchByMealNameOrCategory();
     }
-  }, [currentSearch, allMeals]);
-
-  const handleSuggestionClick = (suggestion: string) => {
-    setCurrentSearch(suggestion);
-    setShowSuggestions(false);
-  };
+  }, [currentSearch, searchByMealNameOrCategory]);
 
   const handleSearch = (query: string) => {
     setCurrentSearch(query);
-
-    if (query.length > 0) {
-      const matchingSuggestions = allMeals.filter((meal) =>
-        meal.title.toLowerCase().startsWith(query.toLowerCase()),
-      );
-
-      setSearchSuggestions(matchingSuggestions.slice(0, 5));
-      setShowSuggestions(true);
-    } else {
-      setShowSuggestions(false);
-    }
   };
 
   const navigateToMeal = (mealId: string) => {
-    navigation.navigate('MealDetails', { mealId });
+    navigation.navigate('MealDetails', {
+      mealId,
+      source: 'SearchResults',
+    });
   };
 
   const renderMeal = (meal: Meal) => (
@@ -102,29 +73,11 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
           color={theme.primaryColors.primaryText}
         />
       ) : (
-        <>
-          {showSuggestions && searchSuggestions.length > 0 && (
-            <FlatList
-              data={searchSuggestions}
-              renderItem={({ item }) => (
-                <Text
-                  onPress={() => handleSuggestionClick(item.title)}
-                  style={styles.suggestionText}
-                >
-                  {item.title}
-                </Text>
-              )}
-              keyExtractor={(item: Meal) => item.id}
-              style={styles.suggestionsList}
-              key="suggestions-list"
-            />
-          )}
-          <FlatList
-            data={filteredMeals}
-            renderItem={({ item }) => renderMeal(item as Meal)}
-            keyExtractor={(item: Meal) => item.id}
-          />
-        </>
+        <FlatList
+          data={filteredMeals}
+          renderItem={({ item }) => renderMeal(item)}
+          keyExtractor={(item) => item.id.toString()}
+        />
       )}
     </View>
   );
@@ -137,14 +90,5 @@ const getStyles = (theme: ThemeType) => {
       padding: 10,
       backgroundColor: '#F6F6F6',
     },
-    suggestionsList: {
-      height: 100, // Adjust this based on your needs
-    },
-    suggestionText: {
-      padding: 10,
-      backgroundColor: '#e0e0e0',
-      marginVertical: 2,
-    },
-    // ... rest of your styles
   });
 };

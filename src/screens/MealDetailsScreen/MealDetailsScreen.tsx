@@ -1,4 +1,13 @@
 import {
+  ActivityIndicator,
+  BackHandler,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {
   AppState,
   addFavourite,
   removeFavourite,
@@ -6,7 +15,6 @@ import {
   useAppSelector,
 } from '../../store';
 import { IconButton, List, MealDetails, SubTitle } from '../../components';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 
 import { Meal } from '../../types';
@@ -15,18 +23,13 @@ import { ThemeType } from '../../theme/ThemeType';
 import { fetchRecipeById } from '../../api';
 import { useTheme } from '../../theme';
 
-// type MealDetailsScreenProps = StackScreenProps<
-//   StackNavigatorParamsList,
-//   'MealDetails'
-// >;
-
 export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
   route,
   navigation,
 }) => {
-  // const favouritesMealContext = useContext(FavouritesContext);
+  // Extract the parameters from the route
+  const { mealId, source } = route.params;
   const { theme } = useTheme();
-  const mealId = route.params.mealId;
 
   const favouritesMealIds = useAppSelector(
     (state: AppState) => state.favourites.ids,
@@ -34,16 +37,41 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
 
   const dispatch = useAppDispatch();
 
-  const [meals, setMeals] = useState<Meal | null>(null);
+  const [meal, setMeal] = useState<Meal | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const styles = getStyles(theme);
 
   useEffect(() => {
-    (async () => {
-      const data = await fetchRecipeById(mealId);
-      setMeals(data);
-    })();
-  }, [mealId]);
+    const loadMeal = async () => {
+      try {
+        const fetchedMeal = await fetchRecipeById(mealId);
+        setMeal(fetchedMeal);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(`Failed to fetch the meal! Reason: ${err.message}`);
+        } else {
+          setError('Failed to fetch the meal!');
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadMeal();
+    const backAction = () => {
+      navigation.goBack(); // Go back to the previous screen
+      return true; // This prevents the default behavior
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, [mealId, navigation, source]);
 
   // const selectedMeal: Meal | null = MEAL.find((meal) => meal.id === mealId);
 
@@ -68,7 +96,7 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: meals?.title,
+      title: meal?.title,
       headerRight: () => {
         return (
           <IconButton
@@ -83,11 +111,29 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
     navigation,
     changeFavouriteStatusHandler,
     mealIsFavourite,
-    meals?.title,
+    meal?.title,
     theme.primaryColors.primaryActive,
   ]);
 
-  if (!meals) {
+  if (isLoading) {
+    return (
+      <View style={styles.isLoading}>
+        <ActivityIndicator
+          size="large"
+          color={theme.primaryColors.primaryActive}
+        />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.error}>
+        <Text>{error}</Text>
+      </View>
+    );
+  }
+  if (!meal) {
     return (
       <View>
         <Text>Meal not found!</Text>
@@ -97,21 +143,21 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
 
   return (
     <ScrollView style={styles.rootContainer}>
-      <Image source={{ uri: meals.imageUrl }} style={styles.image} />
-      <Text style={styles.title}> {meals.title}</Text>
+      <Image source={{ uri: meal.imageUrl }} style={styles.image} />
+      <Text style={styles.title}> {meal.title}</Text>
       <MealDetails
-        duration={meals.duration}
-        complexity={meals.complexity}
-        affordability={meals.affordability}
+        duration={meal.duration}
+        complexity={meal.complexity}
+        affordability={meal.affordability}
         textStyle={styles.detailText}
       />
       <View style={styles.listOuterContainer}>
         <View>
           <SubTitle subTitleText="Ingredients" />
-          <List data={meals.ingredients} />
+          <List data={meal.ingredients} />
 
           <SubTitle subTitleText="Steps" />
-          <List data={meals.steps} />
+          <List data={meal.steps} />
         </View>
       </View>
     </ScrollView>
@@ -144,6 +190,16 @@ const getStyles = (theme: ThemeType) => {
     },
     listContainer: {
       width: '80%',
+    },
+    isLoading: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    error: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });
 };

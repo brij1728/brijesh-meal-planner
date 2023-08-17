@@ -56,3 +56,25 @@ export const fetchRecipeById = async (recipeId: string): Promise<Meal> => {
   const { data } = await RecipesApi.recipesGetRecipe(recipeId);
   return transformRecipeResponseToMeal(data);
 };
+
+export const fetchCategoryIdByName = async (
+  categoryName: string,
+): Promise<string | null> => {
+  const categories = await fetchAllCategories();
+  const foundCategory = categories.find(
+    (cat) => cat.title.toLowerCase() === categoryName.toLowerCase(),
+  );
+  return foundCategory ? foundCategory.id : null;
+};
+
+export const fetchRecipesForCategoryName = async (
+  categoryName: string,
+): Promise<Meal[]> => {
+  const categoryId = await fetchCategoryIdByName(categoryName);
+
+  if (!categoryId) {
+    throw new Error(`Category ${categoryName} not found.`);
+  }
+
+  return fetchRecipesForCategory(categoryId);
+};

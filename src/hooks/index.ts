@@ -1,2 +1,2 @@
 export * from './ActiveTabName';
-export * from './SelectedTab';
+export * from './useSelectedTab';

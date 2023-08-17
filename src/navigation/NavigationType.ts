@@ -1,6 +1,8 @@
+import type { CompositeScreenProps, RouteProp } from '@react-navigation/native';
+
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import type { CompositeScreenProps } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 export type StackNavigatorParamsList = {
   CategoriesOverview: undefined;
@@ -35,10 +37,10 @@ export type MealsOverviewScreenProps = NativeStackScreenProps<
   'MealsOverview'
 >;
 
-export type MealDetailsScreenProps = NativeStackScreenProps<
-  StackNavigatorParamsList,
-  'MealDetails'
->;
+export type MealDetailsScreenProps = {
+  route: RouteProp<SearchStackParamsList, 'MealDetails'>;
+  navigation: StackNavigationProp<SearchStackParamsList, 'MealDetails'>;
+};
 
 export type FavouritesScreenProps = NativeStackScreenProps<
   StackNavigatorParamsList,
@@ -46,12 +48,16 @@ export type FavouritesScreenProps = NativeStackScreenProps<
 >;
 
 export type SearchResultsScreenProps = NativeStackScreenProps<
-  StackNavigatorParamsList,
+  SearchStackParamsList,
   'SearchResults'
 >;
 
 export type SearchStackParamsList = {
   SearchResults: { searchQuery: string };
+  MealDetails: {
+    mealId: string;
+    source: string;
+  };
 };
 
 export type FavouriteStackParamsList = {

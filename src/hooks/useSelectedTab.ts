@@ -1,4 +1,3 @@
-// useSelectedTab.ts
 import { useState } from 'react';
 
 export const useSelectedTab = () => {

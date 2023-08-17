@@ -1,4 +1,5 @@
-import { SearchResultsScreen } from '../../screens';
+import { MealDetailsScreen, SearchResultsScreen } from '../../screens';
+
 import { SearchStackParamsList } from '../NavigationType';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from '../../theme';
@@ -19,6 +20,11 @@ export const SearchResultsStack = () => {
         name="SearchResults"
         component={SearchResultsScreen}
         options={{ title: 'Search Results' }}
+      />
+      <SearchStack.Screen
+        name="MealDetails"
+        component={MealDetailsScreen}
+        options={{ title: 'Meal Details' }}
       />
     </SearchStack.Navigator>
   );
