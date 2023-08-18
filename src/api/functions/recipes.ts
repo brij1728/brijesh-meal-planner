@@ -73,7 +73,8 @@ export const fetchRecipesForCategoryName = async (
   const categoryId = await fetchCategoryIdByName(categoryName);
 
   if (!categoryId) {
-    throw new Error(`Category ${categoryName} not found.`);
+    // If no category matches, simply return an empty array
+    return [];
   }
 
   return fetchRecipesForCategory(categoryId);

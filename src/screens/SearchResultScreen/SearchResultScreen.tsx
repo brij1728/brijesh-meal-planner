@@ -1,4 +1,10 @@
-import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { MealItem, SearchInput } from '../../components';
 import React, { useEffect, useRef } from 'react';
 import { ThemeType, useTheme } from '../../theme';
@@ -64,6 +70,19 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
     />
   );
 
+  const renderSuggestionMessage = () => {
+    if (currentSearch && !filteredMeals.length) {
+      return (
+        <View style={{ alignItems: 'center', marginTop: 10 }}>
+          <Text style={{ color: theme.primaryColors.primaryText }}>
+            No results found for {currentSearch}. Try searching for something
+            else.
+          </Text>
+        </View>
+      );
+    }
+    return null;
+  };
   return (
     <View style={styles.container}>
       <SearchInput onSearch={handleSearch} />
@@ -73,11 +92,14 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
           color={theme.primaryColors.primaryText}
         />
       ) : (
-        <FlatList
-          data={filteredMeals}
-          renderItem={({ item }) => renderMeal(item)}
-          keyExtractor={(item) => item.id.toString()}
-        />
+        <>
+          {renderSuggestionMessage()}
+          <FlatList
+            data={filteredMeals}
+            renderItem={({ item }) => renderMeal(item)}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </>
       )}
     </View>
   );
