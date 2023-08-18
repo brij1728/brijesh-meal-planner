@@ -28,7 +28,7 @@ export const MealDetails: React.FC<MealDetailsProps> = ({
   const { theme } = useTheme();
   const styles = getStyles(theme);
 
-  const affordabilityIcon = getAffordabilityIcon(affordability);
+  // const affordabilityIcon = getAffordabilityIcon(affordability);
   const affordabilityColor = getAffordabilityColor(affordability);
   const { icon, description } = getAffordabilityRepresentation(affordability);
 
@@ -80,18 +80,18 @@ const getComplexityIcon = (complexity: string) => {
   }
 };
 
-const getAffordabilityIcon = (affordability: string) => {
-  switch (affordability.toLowerCase()) {
-    case 'cheap':
-      return '$';
-    case 'moderate':
-      return '$$';
-    case 'expensive':
-      return '$$$';
-    default:
-      return 'Affordable';
-  }
-};
+// const getAffordabilityIcon = (affordability: string) => {
+//   switch (affordability.toLowerCase()) {
+//     case 'cheap':
+//       return '$';
+//     case 'moderate':
+//       return '$$';
+//     case 'expensive':
+//       return '$$$';
+//     default:
+//       return 'Affordable';
+//   }
+// };
 
 const getAffordabilityColor = (affordability: string) => {
   switch (affordability.toLowerCase()) {
@@ -142,7 +142,7 @@ const getStyles = (theme: ThemeType) => {
       fontSize: 16,
     },
     durationText: {
-      marginRight: 15, // Adjust this value to control the spacing between duration and complexity
+      marginRight: 15, // control the spacing between duration and complexity
     },
   });
 };

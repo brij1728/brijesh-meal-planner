@@ -9,15 +9,16 @@ import {
 } from 'react-native';
 import { ThemeType, useTheme } from '../theme';
 
+import React from 'react';
+
 interface Props {
   title: string;
-
   color: string;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
-export const CategoryGridTile: React.FC<Props> = ({
+const CategoryGridTileComponent: React.FC<Props> = ({
   title,
   color,
   onPress,
@@ -25,6 +26,7 @@ export const CategoryGridTile: React.FC<Props> = ({
 }) => {
   const { theme } = useTheme();
   const styles = getStyles(theme);
+
   return (
     <View style={[styles.gridItem, style]}>
       <Pressable
@@ -76,3 +78,5 @@ const getStyles = (theme: ThemeType) => {
     },
   });
 };
+
+export const CategoryGridTile = React.memo(CategoryGridTileComponent);

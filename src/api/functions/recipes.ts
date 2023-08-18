@@ -12,8 +12,17 @@ const transformCategoryResponseToCategory = (
   color: getRandomColorForString(category.name),
 });
 
-export const fetchAllCategories = async (): Promise<Category[]> => {
-  const { data } = await RecipesApi.recipesGetCategories();
+export const fetchAllCategories = async (
+  page = 1,
+  limit = 10,
+): Promise<Category[]> => {
+  const offset = (page - 1) * limit;
+  const { data } = await RecipesApi.recipesGetCategories({
+    params: {
+      offset,
+      limit,
+    },
+  });
   return data.map(transformCategoryResponseToCategory);
 };
 

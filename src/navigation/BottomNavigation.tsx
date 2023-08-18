@@ -149,7 +149,6 @@ const getStyles = (theme: ThemeType) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      paddingBottom: 15,
     },
   });
 };

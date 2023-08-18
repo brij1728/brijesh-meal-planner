@@ -142,30 +142,36 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
   }
 
   return (
-    <ScrollView style={styles.rootContainer}>
-      <Image source={{ uri: meal.imageUrl }} style={styles.image} />
-      <Text style={styles.title}> {meal.title}</Text>
-      <MealDetails
-        duration={meal.duration}
-        complexity={meal.complexity}
-        affordability={meal.affordability}
-        textStyle={styles.detailText}
-      />
-      <View style={styles.listOuterContainer}>
-        <View>
-          <SubTitle subTitleText="Ingredients" />
-          <List data={meal.ingredients} />
+    <View style={styles.screenContent}>
+      <ScrollView style={styles.rootContainer}>
+        <Image source={{ uri: meal.imageUrl }} style={styles.image} />
+        <Text style={styles.title}> {meal.title}</Text>
+        <MealDetails
+          duration={meal.duration}
+          complexity={meal.complexity}
+          affordability={meal.affordability}
+          textStyle={styles.detailText}
+        />
+        <View style={styles.listOuterContainer}>
+          <View>
+            <SubTitle subTitleText="Ingredients" />
+            <List data={meal.ingredients} />
 
-          <SubTitle subTitleText="Steps" />
-          <List data={meal.steps} />
+            <SubTitle subTitleText="Steps" />
+            <List data={meal.steps} />
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
 const getStyles = (theme: ThemeType) => {
   return StyleSheet.create({
+    screenContent: {
+      flex: 1,
+      paddingBottom: 65,
+    },
     rootContainer: {
       marginBottom: 24,
     },
