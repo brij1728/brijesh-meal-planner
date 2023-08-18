@@ -27,6 +27,9 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
     setCurrentSearch,
     filteredMeals,
     searchByMealNameOrCategory,
+    searchCompleted,
+    setSearchCompleted,
+    noResultsFound,
   } = useSearch(allMeals);
 
   const hasMounted = useRef(false);
@@ -48,6 +51,7 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
 
   const handleSearch = (query: string) => {
     setCurrentSearch(query);
+    setSearchCompleted(false); // reset search Completed state
   };
 
   const navigateToMeal = (mealId: string) => {
@@ -71,7 +75,7 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
   );
 
   const renderSuggestionMessage = () => {
-    if (currentSearch && !filteredMeals.length) {
+    if (currentSearch && noResultsFound && searchCompleted) {
       return (
         <View style={{ alignItems: 'center', marginTop: 10 }}>
           <Text style={{ color: theme.primaryColors.primaryText }}>
@@ -83,23 +87,22 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
     }
     return null;
   };
+
   return (
     <View style={styles.container}>
       <SearchInput onSearch={handleSearch} />
+      {renderSuggestionMessage()}
       {isLoading ? (
         <ActivityIndicator
           size="large"
           color={theme.primaryColors.primaryText}
         />
       ) : (
-        <>
-          {renderSuggestionMessage()}
-          <FlatList
-            data={filteredMeals}
-            renderItem={({ item }) => renderMeal(item)}
-            keyExtractor={(item) => item.id.toString()}
-          />
-        </>
+        <FlatList
+          data={filteredMeals}
+          renderItem={({ item }) => renderMeal(item)}
+          keyExtractor={(item) => item.id.toString()}
+        />
       )}
     </View>
   );
