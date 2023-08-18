@@ -9,6 +9,7 @@ interface MealsListProps {
 export const MealsList: React.FC<MealsListProps> = ({ items }) => {
   const renderMealItem = ({ item }: ListRenderItemInfo<Meal>) => {
     console.log('complexity', ...item.complexity);
+    console.log('affordability', ...item.affordability);
     return (
       <MealItem
         key={item.id}
