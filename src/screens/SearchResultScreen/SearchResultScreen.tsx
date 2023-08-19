@@ -79,8 +79,12 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
       return (
         <View style={{ alignItems: 'center', marginTop: 10 }}>
           <Text style={{ color: theme.primaryColors.primaryText }}>
-            No results found for {currentSearch}. Try searching for something
-            else.
+            We could not find results for {currentSearch}.
+          </Text>
+          <Text
+            style={{ color: theme.primaryColors.primaryText, marginTop: 8 }}
+          >
+            Do not worry! Here are some popular meals you might like:
           </Text>
         </View>
       );

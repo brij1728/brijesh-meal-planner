@@ -16,6 +16,7 @@ npm install @react-navigation/bottom-tabs
 npm install @reduxjs/toolkit react-redux
 
 npm install axios
+npm install react-native-safe-area-context
 
 **Development command**
 

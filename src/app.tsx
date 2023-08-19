@@ -1,3 +1,4 @@
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ThemeProvider, lightTheme } from './theme';
 
 import { AppNavigation } from './navigation';
@@ -8,13 +9,15 @@ import { store } from './store';
 
 export default function App() {
   return (
-    <>
-      <StatusBar barStyle="light-content" />
-      <Provider store={store}>
-        <ThemeProvider initialTheme={lightTheme}>
-          <AppNavigation />
-        </ThemeProvider>
-      </Provider>
-    </>
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar barStyle="light-content" />
+        <Provider store={store}>
+          <ThemeProvider initialTheme={lightTheme}>
+            <AppNavigation />
+          </ThemeProvider>
+        </Provider>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
