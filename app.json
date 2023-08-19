@@ -2,7 +2,7 @@
   "expo": {
     "name": "Meal Crafters",
     "slug": "Meal-Crafters",
-    "version": "1.0.0-alpha.5",
+    "version": "1.0.0-alpha.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "backgroundColor": "#24180f",
@@ -23,7 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "app.brijesh.mealcrafters",
-      "versionCode": 8
+      "versionCode": 9
     },
     "web": {
       "favicon": "./assets/favicon.png"
