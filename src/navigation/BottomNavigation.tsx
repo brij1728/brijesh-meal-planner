@@ -5,8 +5,7 @@ import {
   MenuStackTab,
   SearchResultsStack,
 } from './stacks';
-import { StyleSheet, View } from 'react-native';
-import { ThemeType, useTheme } from '../theme';
+import { useTheme } from '../theme';
 
 import { BottomNavigatorParamsList } from './NavigationType';
 import { Ionicons } from '@expo/vector-icons';
@@ -20,8 +19,6 @@ const ICON_SIZE = 20; // Default icon size
 export const BottomNavigation: React.FC = () => {
   const { theme } = useTheme();
   const { setTabTitle } = useTabTitle();
-
-  const styles = getStyles(theme);
 
   const handleTabPress = (routeName: keyof BottomNavigatorParamsList) => {
     switch (routeName) {
@@ -49,106 +46,98 @@ export const BottomNavigation: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Tab.Navigator
-        activeColor={`${theme.primaryColors.primaryActive}`}
-        inactiveColor={`${theme.primaryColors.primaryInactive}`}
-        barStyle={{
-          backgroundColor: `${theme.primaryColors.primaryHeader}`,
-          position: 'absolute',
+    <Tab.Navigator
+      activeColor={`${theme.primaryColors.primaryActive}`}
+      inactiveColor={`${theme.primaryColors.primaryInactive}`}
+      barStyle={{
+        backgroundColor: `${theme.primaryColors.primaryHeader}`,
+        position: 'absolute',
+        // bottom: 0,
+      }}
+      style={{ paddingBottom: 0 }}
+      initialRouteName="HomeTab"
+    >
+      <Tab.Screen
+        name="HomeTab"
+        component={HomeStackTab}
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="home" size={ICON_SIZE} color={color} />
+          ),
         }}
-        initialRouteName="HomeTab"
-      >
-        <Tab.Screen
-          name="HomeTab"
-          component={HomeStackTab}
-          options={{
-            title: 'Home',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="home" size={ICON_SIZE} color={color} />
-            ),
-          }}
-          listeners={({ navigation }) => ({
-            tabPress: (e) => {
-              e.preventDefault();
-              navigation.navigate(handleTabPress('HomeTab'));
-            },
-          })}
-        />
-        <Tab.Screen
-          name="SearchResultsTab"
-          component={SearchResultsStack}
-          options={{
-            title: 'Search',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="search" size={ICON_SIZE} color={color} />
-            ),
-            tabBarColor: `${theme.primaryColors.primaryActive}`,
-          }}
-          listeners={({ navigation }) => ({
-            tabPress: (e) => {
-              e.preventDefault();
-              navigation.navigate(handleTabPress('SearchResultsTab'));
-            },
-          })}
-        />
-        <Tab.Screen
-          name="FavouritesTab"
-          component={FavouritesStackTab}
-          options={{
-            title: 'Favourite',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="heart" size={ICON_SIZE} color={color} />
-            ),
-          }}
-          listeners={({ navigation }) => ({
-            tabPress: (e) => {
-              e.preventDefault();
-              navigation.navigate(handleTabPress('FavouritesTab'));
-            },
-          })}
-        />
-        <Tab.Screen
-          name="CraftMealTab"
-          component={CraftMealStackTab}
-          options={{
-            title: 'Craft Meal',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="fast-food" size={ICON_SIZE} color={color} />
-            ),
-          }}
-          listeners={({ navigation }) => ({
-            tabPress: (e) => {
-              e.preventDefault();
-              navigation.navigate(handleTabPress('CraftMealTab'));
-            },
-          })}
-        />
-        <Tab.Screen
-          name="MenuTab"
-          component={MenuStackTab}
-          options={{
-            title: 'Menu',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="menu" size={ICON_SIZE} color={color} />
-            ),
-          }}
-          listeners={({ navigation }) => ({
-            tabPress: (e) => {
-              e.preventDefault();
-              navigation.navigate(handleTabPress('MenuTab'));
-            },
-          })}
-        />
-      </Tab.Navigator>
-    </View>
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(handleTabPress('HomeTab'));
+          },
+        })}
+      />
+      <Tab.Screen
+        name="SearchResultsTab"
+        component={SearchResultsStack}
+        options={{
+          title: 'Search',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="search" size={ICON_SIZE} color={color} />
+          ),
+          tabBarColor: `${theme.primaryColors.primaryActive}`,
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(handleTabPress('SearchResultsTab'));
+          },
+        })}
+      />
+      <Tab.Screen
+        name="FavouritesTab"
+        component={FavouritesStackTab}
+        options={{
+          title: 'Favourite',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="heart" size={ICON_SIZE} color={color} />
+          ),
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(handleTabPress('FavouritesTab'));
+          },
+        })}
+      />
+      <Tab.Screen
+        name="CraftMealTab"
+        component={CraftMealStackTab}
+        options={{
+          title: 'Craft Meal',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="fast-food" size={ICON_SIZE} color={color} />
+          ),
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(handleTabPress('CraftMealTab'));
+          },
+        })}
+      />
+      <Tab.Screen
+        name="MenuTab"
+        component={MenuStackTab}
+        options={{
+          title: 'Menu',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="menu" size={ICON_SIZE} color={color} />
+          ),
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(handleTabPress('MenuTab'));
+          },
+        })}
+      />
+    </Tab.Navigator>
   );
-};
-
-const getStyles = (theme: ThemeType) => {
-  return StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-  });
 };

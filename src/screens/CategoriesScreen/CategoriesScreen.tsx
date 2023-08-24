@@ -25,14 +25,20 @@ export const CategoriesScreen: React.FC<CategoriesOverviewScreenProps> = ({
     setLoading(true);
     try {
       const newCategories = await fetchCategories(page, ITEMS_PER_PAGE);
-      setCategories((prev) => {
-        // Filter out any duplicates to prevent key errors
-        const uniqueNewCategories = newCategories.filter(
-          (newCat) => !prev.some((cat) => cat.id === newCat.id),
-        );
-        return [...prev, ...uniqueNewCategories];
-      });
-      setPage((prev) => prev + 1);
+      if (newCategories.length > 0) {
+        // only update if there are new items
+        setCategories((prev) => {
+          const combined = [...prev, ...newCategories];
+          // Get unique ids
+          const uniqueIds = Array.from(new Set(combined.map((c) => c.id)));
+
+          // Map ids back to the category objects, filtering out undefined ones
+          return uniqueIds
+            .map((id) => combined.find((c) => c.id === id))
+            .filter(Boolean) as Category[];
+        });
+        setPage((prev) => prev + 1);
+      }
     } catch (error) {
       console.error('Failed to load categories:', error);
     } finally {
@@ -55,6 +61,7 @@ export const CategoriesScreen: React.FC<CategoriesOverviewScreenProps> = ({
           key={item.id}
           title={item.title}
           color={item.color}
+          categoryId={item.id}
           onPress={pressHandler}
         />
       );
@@ -72,6 +79,8 @@ export const CategoriesScreen: React.FC<CategoriesOverviewScreenProps> = ({
         onEndReached={loadCategories}
         onEndReachedThreshold={0.5}
         initialNumToRender={10}
+        maxToRenderPerBatch={6}
+        windowSize={5} // Adjust windowSize to potentially improve performance
       />
     </View>
   );
@@ -81,7 +90,7 @@ const getStyles = (theme: ThemeType) => {
   return {
     screenContent: {
       flex: 1,
-      paddingBottom: 85,
+      paddingBottom: 70,
     },
   };
 };

@@ -14,13 +14,15 @@ import React from 'react';
 interface Props {
   title: string;
   color: string;
-  onPress: () => void;
+  categoryId: string;
+  onPress: (categoryId: string) => void; // Updated the onPress to accept categoryId
   style?: StyleProp<ViewStyle>;
 }
 
 const CategoryGridTileComponent: React.FC<Props> = ({
   title,
   color,
+  categoryId,
   onPress,
   style,
 }) => {
@@ -35,7 +37,7 @@ const CategoryGridTileComponent: React.FC<Props> = ({
           styles.button,
           pressed ? styles.buttonPressed : null,
         ]}
-        onPress={onPress}
+        onPress={() => onPress(categoryId)} // Use the categoryId here
       >
         <View style={[styles.innerContainer, { backgroundColor: color }]}>
           <Text style={styles.title}>{title}</Text>

@@ -28,7 +28,7 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
   navigation,
 }) => {
   // Extract the parameters from the route
-  const { mealId, source } = route.params;
+  const { mealId } = route.params;
   const { theme } = useTheme();
 
   const favouritesMealIds = useAppSelector(
@@ -71,7 +71,7 @@ export const MealDetailsScreen: React.FC<MealDetailsScreenProps> = ({
     );
 
     return () => backHandler.remove();
-  }, [mealId, navigation, source]);
+  }, [mealId, navigation]);
 
   // const selectedMeal: Meal | null = MEAL.find((meal) => meal.id === mealId);
 
@@ -173,7 +173,7 @@ const getStyles = (theme: ThemeType) => {
       paddingBottom: 65,
     },
     rootContainer: {
-      marginBottom: 24,
+      marginBottom: 10,
     },
     image: {
       width: '100%',

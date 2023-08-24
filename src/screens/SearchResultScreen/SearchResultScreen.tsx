@@ -1,17 +1,12 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { MealItem, SearchInput } from '../../components';
 import React, { useEffect, useRef } from 'react';
 import { ThemeType, useTheme } from '../../theme';
-import { useFetchAllMeals, useSearch } from './hooks';
 
 import { Meal } from '../../types';
 import { SearchResultsScreenProps } from '../../navigation';
+import { useMeals } from '../../store';
+import { useSearch } from './hooks';
 
 export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
   route,
@@ -21,7 +16,7 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
   const { theme } = useTheme();
   const styles = getStyles(theme);
 
-  const { allMeals, isLoading } = useFetchAllMeals();
+  const { allMeals, isLoading } = useMeals();
   const {
     currentSearch,
     setCurrentSearch,
@@ -74,17 +69,12 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
     />
   );
 
-  const renderSuggestionMessage = () => {
-    if (currentSearch && noResultsFound && searchCompleted) {
+  const renderLoadingMessage = () => {
+    if (isLoading) {
       return (
         <View style={{ alignItems: 'center', marginTop: 10 }}>
           <Text style={{ color: theme.primaryColors.primaryText }}>
-            We could not find results for {currentSearch}.
-          </Text>
-          <Text
-            style={{ color: theme.primaryColors.primaryText, marginTop: 8 }}
-          >
-            Do not worry! Here are some popular meals you might like:
+            Loading...
           </Text>
         </View>
       );
@@ -92,22 +82,51 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
     return null;
   };
 
+  const renderSuggestionMessage = () => {
+    if (currentSearch && searchCompleted && !isLoading) {
+      if (noResultsFound) {
+        return (
+          <View style={{ alignItems: 'center', marginTop: 10 }}>
+            <Text style={{ color: theme.primaryColors.primaryText }}>
+              We could not find results for {currentSearch}.
+            </Text>
+            <Text
+              style={{ color: theme.primaryColors.primaryText, marginTop: 8 }}
+            >
+              Do not worry! Here are some popular meals you might like:
+            </Text>
+          </View>
+        );
+      } else {
+        return (
+          <View style={{ alignItems: 'center', marginTop: 10 }}>
+            <Text
+              style={{
+                color: theme.primaryColors.primaryText,
+                paddingBottom: 5,
+              }}
+            >
+              Here are the results for {currentSearch}:
+            </Text>
+          </View>
+        );
+      }
+    }
+    return null;
+  };
+
   return (
     <View style={styles.container}>
       <SearchInput onSearch={handleSearch} />
+
+      {renderLoadingMessage()}
       {renderSuggestionMessage()}
-      {isLoading ? (
-        <ActivityIndicator
-          size="large"
-          color={theme.primaryColors.primaryText}
-        />
-      ) : (
-        <FlatList
-          data={filteredMeals}
-          renderItem={({ item }) => renderMeal(item)}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      )}
+
+      <FlatList
+        data={filteredMeals}
+        renderItem={({ item }) => renderMeal(item)}
+        keyExtractor={(item) => item.id.toString()}
+      />
     </View>
   );
 };

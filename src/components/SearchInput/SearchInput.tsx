@@ -8,13 +8,15 @@ import { useTheme } from '../../theme';
 interface SearchProps {
   onSearch: (searchText: string) => void;
   placeholder?: string;
+  initialValue?: string; // Step 1: Add initialValue prop
 }
 
 export const SearchInput: React.FC<SearchProps> = ({
   onSearch,
   placeholder = 'Search',
+  initialValue = '', // Default to an empty string if no initialValue provided
 }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(initialValue); // Step 2: Set the initial state
 
   const { theme } = useTheme();
   const styles = getStyles(theme);
@@ -23,12 +25,13 @@ export const SearchInput: React.FC<SearchProps> = ({
     console.log('Search for', searchQuery);
     onSearch(searchQuery);
   };
+
   return (
     <View style={styles.container}>
       <SearchBar
         placeholder={placeholder}
         onChangeText={(searchQuery: string) => setSearchQuery(searchQuery)}
-        value={searchQuery}
+        value={searchQuery} // Step 3: Reflect the initial value
         style={styles.searchBar}
         onSubmitEditing={handleSearch}
       />

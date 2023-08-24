@@ -54,7 +54,7 @@ const getStyles = (theme: ThemeType) => {
   return {
     screenContent: {
       flex: 1,
-      paddingBottom: 65,
+      paddingBottom: 60,
     },
   };
 };
